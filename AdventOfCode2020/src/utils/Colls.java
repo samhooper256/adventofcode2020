@@ -68,4 +68,13 @@ public final class Colls {
 		return items;
 	}
 	
+	/**
+	 * Returns the last element in the given {@link List}. Throws a {@link NoSuchElementException} if the list {@link List#isEmpty() is empty}.
+	 */
+	public static <T> T peek(final List<T> list) {
+		if(list.isEmpty())
+			throw new NoSuchElementException("Cannot peek on empty List");
+		return list.get(list.size() - 1);
+	}
+	
 }
