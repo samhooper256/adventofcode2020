@@ -2,9 +2,10 @@ package day14;
 
 import java.util.*;
 
-import utils.IO;
+import utils.*;
 
 /**
+ * Correct answers are 6513443633260 (Part 1) and 3442819875191 (Part 2).
  * @author Sam Hooper
  *
  */
@@ -17,7 +18,7 @@ public class Solution {
 	}
 	
 	private static void solvePart1(final String[] lines) {
-		System.out.println(new Interpreter(lines).execute().sumMemory());
+		System.out.println(new Interpreter1(lines).execute().sumMemory());
 	}
 	
 	private static void solvePart2(final String[] lines) {
@@ -27,15 +28,12 @@ public class Solution {
 	private static final long BITS = 36;
 	private static final int MEMORY_SIZE = 100_000;
 	
-	private static class Interpreter {
+	private abstract static class Interpreter {
+		protected final String[] input;
+		protected final long[] mask;
 		
-		private final String[] input;
-		private final long[] memory;
-		private long[] mask; //mask[0] has 0 bits where the mask was an 'X' and 1 bits where the mask was either a '1' or a '0'.
-		
-		public Interpreter(String[] input) {
+		public Interpreter(final String[] input) {
 			this.input = input;
-			this.memory = new long[MEMORY_SIZE];
 			this.mask = new long[2];
 		}
 		
@@ -48,7 +46,22 @@ public class Solution {
 			return this;
 		}
 		
-		private void handleMask(final String maskString) {
+		public abstract long sumMemory();
+		protected abstract void handleMask(final String maskString);
+		protected abstract void handleAssignment(final String assignmentString);
+	}
+	
+	private static class Interpreter1 extends Interpreter {
+		
+		private final long[] memory;
+		
+		public Interpreter1(String[] input) {
+			super(input);
+			this.memory = new long[MEMORY_SIZE];
+		}
+		
+		@Override
+		protected void handleMask(final String maskString) {
 			String bitString = maskString.substring(maskString.lastIndexOf(' ') + 1);
 			long considered = Long.parseLong(bitString.replace('0', '1').replace('X', '0'), 2);
 			long maskBits = Long.parseLong(bitString.replace('X', '0'), 2);
@@ -56,114 +69,76 @@ public class Solution {
 			mask[1] = maskBits;
 		}
 		
-		private void handleAssignment(final String assignmentString) {
+		@Override
+		protected void handleAssignment(final String assignmentString) {
 			int address = Integer.parseInt(assignmentString.substring(assignmentString.indexOf('[') + 1, assignmentString.indexOf(']')));
 			long value = masked(Long.parseLong(assignmentString.substring(assignmentString.lastIndexOf(' ') + 1)));
 			memory[address] = value;
 		}
 		
-		private long masked(final long value) {
-			long result = value;
-			result &= ~(mask[1] ^ mask[0]);
-			result |= mask[1] & mask[0];
-			return result;
+		private long masked(long value) {
+			return value & ~(mask[1] ^ mask[0]) | mask[1] & mask[0];
 		}
 		
+		@Override
 		public long sumMemory() {
-			long sum = 0;
-			for(long l : memory)
-				sum += l;
-			return sum;
+			return Arrays.stream(memory).sum();
 		}
+		
 	}
 	
-	private static class Interpreter2 {
+	private static class Interpreter2 extends Interpreter {
 		
-		private final String[] input;
 		private final Map<Long, Long> memory;
-		private long[] mask;
 		
 		public Interpreter2(String[] input) {
-			this.input = input;
+			super(input);
 			this.memory = new HashMap<>();
-			this.mask = new long[2];
 		}
 		
-		public Interpreter2 execute() {
-			for(String line : input)
-				if(line.startsWith("mask"))
-					handleMask(line);
-				else
-					handleAssignment(line);
-			return this;
-		}
-		
-		private void handleMask(final String maskString) {
-//			System.out.printf("[enter] handleMask(%s)%n", maskString);
+		@Override
+		protected void handleMask(final String maskString) {
 			String bitString = maskString.substring(maskString.lastIndexOf(' ') + 1);
-			long considered = Long.parseLong(bitString.replace('0', '1').replace('X', '0'), 2);
-			long maskBits = Long.parseLong(bitString.replace('X', '0'), 2);
-			mask[0] = considered;
-			mask[1] = maskBits;
-//			System.out.printf("mask now = [%s, %s]%n", Long.toBinaryString(mask[0]), Long.toBinaryString(mask[1]));
+			mask[0] = Long.parseLong(bitString.replace('0', '1').replace('X', '0'), 2);
+			mask[1] = Long.parseLong(bitString.replace('X', '0'), 2);
 		}
 		
-		private void handleAssignment(final String assignmentString) {
+		@Override
+		protected void handleAssignment(final String assignmentString) {
 			long address = Long.parseLong(assignmentString.substring(assignmentString.indexOf('[') + 1, assignmentString.indexOf(']')));
 			long value = Long.parseLong(assignmentString.substring(assignmentString.lastIndexOf(' ') + 1));
 			assign(address, value);
 		}
 		
 		private void assign(final long address, final long value) {
-			final long masked = masked(address) & mask[0];
-//			System.out.printf("assign(address=%s, value=%d (base 10))%n", Long.toBinaryString(address), value);
-			assignHelper(masked, value, 0L);
+			assignHelper(masked(address) & mask[0], value, 0);
 		}
 		
 		private long masked(final long value) {
-			long result = value;
-			result |= mask[1] & mask[0];
-			return result;
+			return value | mask[1] & mask[0];
 		}
 		
 		//Assumes all floating bits are zero
-		private void assignHelper(final long address, final long value, long bitIndex) {
+		private void assignHelper(final long address, final long value, int bitIndex) {
 			if(bitIndex == BITS)
 				return;
-			
-			//assign and pass on
 			if(isFloating(bitIndex)) {
-//				System.out.printf("FLOATER assign(address=%s, value=%d (base 10), bitIndex=%d (base 10))%n", Long.toBinaryString(address), value, bitIndex);
+				final long ored = Bits.set(address, bitIndex);
 				memory.put(address, value);
-				final long ored = address | onlyBit(bitIndex);
 				memory.put(ored, value);
-				assignHelper(address, value, bitIndex + 1);
 				assignHelper(ored, value, bitIndex + 1);
 			}
-			else {
-				assignHelper(address, value, bitIndex + 1);
-			}
+			assignHelper(address, value, bitIndex + 1);
 		}
 		
 		/** a bitIndex of 0 is the ones place, 1 is the twos place, etc */
-		private boolean isFloating(long bitIndex) {
-			return bitAt(mask[0], bitIndex) == 0L;
+		private boolean isFloating(int bitIndex) {
+			return Bits.zeroAt(mask[0], bitIndex);
 		}
 		
-		private long bitAt(long num, long bitIndex) {
-			return num & onlyBit(bitIndex);
-		}
-		
-		private long onlyBit(long bitIndex) {
-			return 1L << bitIndex;
-		}
-		
+		@Override
 		public long sumMemory() {
-//			System.out.println("summing " + memory);
-			long sum = 0;
-			for(long l : memory.values())
-				sum += l;
-			return sum;
+			return memory.values().stream().mapToLong(Long::longValue).sum();
 		}
 	}
 	
