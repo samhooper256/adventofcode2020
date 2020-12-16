@@ -14,5 +14,6 @@ public final class Regex {
 	public static final Pattern DIGITS = Pattern.compile("\\d+");
 	public static final Pattern NON_DIGITS = Pattern.compile("\\D+");
 	public static final Pattern COMMA = Pattern.compile(",");
+	public static final Pattern INTEGERS = Pattern.compile("-?\\d+");
 	
 }

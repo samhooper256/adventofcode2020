@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.regex.MatchResult;
 import java.util.stream.IntStream;
 
 public final class Parsing {
@@ -17,6 +18,6 @@ public final class Parsing {
 	 * </ul>
 	 * */
 	public static IntStream ints(String input) {
-		return Regex.NON_DIGITS.splitAsStream(input).filter(Maths::isint).mapToInt(Integer::parseInt);
+		return Regex.INTEGERS.matcher(input).results().map(MatchResult::group).filter(Maths::isint).mapToInt(Integer::parseInt);
 	}
 }
