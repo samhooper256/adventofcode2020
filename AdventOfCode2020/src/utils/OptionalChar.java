@@ -5,9 +5,8 @@ import java.util.function.*;
 
 /**
  * 
- *
  */
-//Code copied from OptionalInt but replaced with 'char'.
+//Code (essentially) copied from OptionalInt but with 'int' replaced by 'char'.
 public class OptionalChar {
     /**
      * Common instance for {@code empty()}.

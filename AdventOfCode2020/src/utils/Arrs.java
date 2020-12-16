@@ -2,7 +2,7 @@ package utils;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 /**
  * <p>All methods throw a {@link NullPointerException} if a parameter is {@code null}, unless that parameter is explicitly allowed to be {@code null} by the method
@@ -54,6 +54,13 @@ public final class Arrs {
 		return count(arr, x -> x == val);
 	}
 	
+	/** Returns {@code true} for an empty {@code int[]}. */
+	public static boolean allMatch(int[] arr, IntPredicate predicate) {
+		for(int i : arr)
+			if(!predicate.test(i))
+				return false;
+		return true;
+	}
 	
 	/**
 	 * <p>Returns {@code true} if {@code arr} contains {@code item}, {@code false} otherwise. More precisely, returns {@code true} if there

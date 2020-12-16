@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.*;
 import java.util.regex.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 import utils.*;
 
@@ -15,64 +15,77 @@ import utils.*;
  */
 public class Solution {
 	
-	private static final Map<String, IntPredicate> validationFunctions = new HashMap<>();
 	
 	public static void main(String[] args) {
-		String[] sections = Pattern.compile("\n\n").splitAsStream(IO.text("src/day16/input.txt")).toArray(String[]::new);
+		new Solution("src/day16/input.txt");
+	}
+	
+	private final Map<String, IntPredicate> validationFunctions = new HashMap<>();
+	private final int[][] allTickets; 
+	
+	private Solution(String filePath) {
+		String[] sections = Pattern.compile("\n\n").splitAsStream(IO.text(filePath)).toArray(String[]::new);
 		createValidationFunctions(sections[0]);
-		solvePart1(sections[2]);
-		solvePart2(sections);
+		allTickets = Stream.concat(
+			sections[1].lines().skip(1).map(this::ticketFrom),
+			sections[2].lines().skip(1).map(this::ticketFrom)
+		).toArray(int[][]::new);
+		solvePart1();
+		solvePart2();
 	}
 	
-	private static void createValidationFunctions(String fieldRules) {
-		fieldRules.lines().forEachOrdered(Solution::createValidationFunction);
+	private final int[] myTicket() {
+		return allTickets[0];
 	}
 	
-	private static void createValidationFunction(String fieldRule) {
+	public final Stream<int[]> nearbyTickets() {
+		return Arrays.stream(allTickets, 1, allTickets.length);
+	}
+	
+	private void createValidationFunctions(String fieldRules) {
+		fieldRules.lines().forEachOrdered(this::createValidationFunction);
+	}
+	
+	private void createValidationFunction(String fieldRule) {
 		String[] split = fieldRule.split(": ");
 		final String name = split[0];
 		int[] nums = Regex.NON_DIGITS.splitAsStream(split[1]).mapToInt(Integer::parseInt).toArray();
 		validationFunctions.put(name, i -> Basics.between(i, nums[0], nums[1]) || Basics.between(i, nums[2], nums[3]));
 	}
 	
-	private static boolean isValidForAny(int num) {
+	private boolean isValidForAny(int num) {
 		for(IntPredicate function : validationFunctions.values())
 			if(function.test(num))
 				return true;
 		return false;
 	}
 	
-	private static long sumInvalidsOfAllTickets(final String nearbyTicketSection) {
-		return nearbyTicketSection.lines().skip(1).mapToLong(Solution::sumInvalidsOfTicket).sum();
+	private long sumInvalidsOfAllTickets() {
+		return nearbyTickets().mapToLong(this::sumInvalidsOfTicket).sum();
 	}
 	
-	private static long sumInvalidsOfTicket(final String ticket) {
-		return Regex.COMMA.splitAsStream(ticket).mapToInt(Integer::parseInt).filter(i -> !Solution.isValidForAny(i))
-				.sum();
+	private long sumInvalidsOfTicket(final int[] ticket) {
+		return Arrays.stream(ticket).filter(i -> !isValidForAny(i)).sum();
 	}
 	
-	private static void solvePart1(String nearbyTicketSection) {
-		long sum = sumInvalidsOfAllTickets(nearbyTicketSection);
-		System.out.printf("sum=%d%n", sum);
+	private void solvePart1() {
+		System.out.printf("Part 1 = %d%n", sumInvalidsOfAllTickets());
 	}
 	
-	private static void solvePart2(String[] sections) {
+	private void solvePart2() {
 		Map<String, IntSet> indicesSatisfying = new HashMap<>();
-		List<int[]> allTicketsAsList = allTickets(sections);
-		removeInvalidTickets(allTicketsAsList);
-		int[][] allTickets = allTicketsAsList.toArray(int[][]::new);
+		int[][] validTickets = Arrays.stream(allTickets).filter(this::isValidTicket).toArray(int[][]::new);
 		for(Map.Entry<String, IntPredicate> entry : validationFunctions.entrySet()) {
-			String name = entry.getKey();
 			IntPredicate func = entry.getValue();
 			IntSet set = IntSet.createHash(20);
 			outer1:
-			for(int col = 0; col < allTickets[0].length; col++) {
-				for(int row = 0; row < allTickets.length; row++)
-					if(!func.test(allTickets[row][col]))
+			for(int col = 0; col < validTickets[0].length; col++) {
+				for(int row = 0; row < validTickets.length; row++)
+					if(!func.test(validTickets[row][col]))
 						continue outer1;
 				set.add(col);
 			}
-			indicesSatisfying.put(name, set);
+			indicesSatisfying.put(entry.getKey(), set);
 		}
 //		indicesSatisfying.forEach((name, set) -> System./out.printf("%s : %s%n", name, set));
 		
@@ -86,9 +99,8 @@ public class Solution {
 //				System.out.printf("\tentry=%s%n", entry);
 				if(set.size() == 1) {
 					int singleValue = set.iterator().next();
-					for(Set<Integer> otherSet : indicesSatisfying.values()) {
+					for(Set<Integer> otherSet : indicesSatisfying.values())
 						otherSet.remove(singleValue);
-					}
 					correctIndices.put(entry.getKey(), singleValue);
 					iterator.remove();
 					continue outer2;
@@ -97,35 +109,16 @@ public class Solution {
 			throw new IllegalStateException("Shouldn't get here");
 		}
 //		System.out.println("correctIndices="+correctIndices);
-		int[] myTicket = allTickets[0];
-		long product = 1;
-		for(var e : correctIndices.entrySet()) {
-			if(e.getKey().startsWith("departure"))
-				product *= myTicket[e.getValue()];
-		}
-		System.out.println(product);
+		long product = correctIndices.entrySet().stream().filter(e -> e.getKey().startsWith("departure"))
+				.mapToLong(e -> myTicket()[e.getValue()]).reduce(1, (a, b) -> a * b);
+		System.out.println("Part 2 = " + product);
 	}
 	
-	private static void removeInvalidTickets(List<int[]> tickets) {
-		tickets.removeIf(Solution::isInvalidTicket);
+	private boolean isValidTicket(int[] ticket) {
+		return Arrs.allMatch(ticket, this::isValidForAny);
 	}
 	
-	private static boolean isInvalidTicket(int[] ticket) {
-		for(int num : ticket)
-			if(!isValidForAny(num))
-				return true;
-		return false;
-	}
-	
-	private static List<int[]> allTickets(String[] sections) {
-		List<int[]> tickets = new ArrayList<>();
-		int[] myTicket = sections[1].lines().skip(1).map(Solution::ticketFrom).findFirst().get();
-		tickets.add(myTicket);
-		Collections.addAll(tickets, sections[2].lines().skip(1).map(Solution::ticketFrom).toArray(int[][]::new));
-		return tickets;
-	}
-	
-	private static int[] ticketFrom(String lineOfInput) {
-		return Regex.COMMA.splitAsStream(lineOfInput).mapToInt(Integer::parseInt).toArray();
+	private int[] ticketFrom(String lineOfInput) {
+		return Parsing.ints(lineOfInput).toArray();
 	}
 }
