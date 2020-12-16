@@ -21,8 +21,10 @@ public class HashIntSet implements IntSet {
 		
 		public Node(final int value, Node next) {
 			this.value = value;
+			this.next = next;
 		}
 		
+		/** Returns the {@code int} value of this {@link Node}. */
 		public int value() {
 			return value;
 		}
@@ -237,7 +239,7 @@ public class HashIntSet implements IntSet {
 			 */
 			int bucketIndex = -1;
 			/**
-			 * The last node seen (it contains the value returned by the most recent call to next()).
+			 * The last node seen (it contains the {@link Node#value() value} returned by the most recent call to next()).
 			 */
 			Node last = null;
 			@Override
@@ -330,17 +332,7 @@ public class HashIntSet implements IntSet {
 
 	@Override
 	public boolean contains(Object o) {
-		return o instanceof Integer && contains(((Integer) o).intValue());
-	}
-
-	@Override
-	public Object[] toArray() {
-		throw new UnsupportedOperationException(); //TODO
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		throw new UnsupportedOperationException(); //TODO
+		return o.getClass() == Integer.class && contains(((Integer) o).intValue());
 	}
 
 	@Override
@@ -357,13 +349,18 @@ public class HashIntSet implements IntSet {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		throw new UnsupportedOperationException(); //TODO
+		if(c instanceof IntSet)
+			return containsAll((IntSet) c);
+		for(Object o : c)
+			if(!contains(o))
+				return false;
+		return true;
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends Integer> c) {
-		if(c instanceof HashIntSet)
-			return addAll((HashIntSet) c);
+		if(c instanceof IntSet)
+			return addAll((IntSet) c);
 		throw new UnsupportedOperationException(); //TODO
 	}
 
@@ -379,7 +376,9 @@ public class HashIntSet implements IntSet {
 
 	@Override
 	public void clear() {
-		throw new UnsupportedOperationException(); //TODO
+		for(int i = 0; i < buckets.length; i++)
+			buckets[i] = null;
+		size = 0;
 	}
 	
 	

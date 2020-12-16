@@ -123,13 +123,20 @@ public interface IntSet extends Set<Integer> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public PrimitiveIterator.OfInt iterator();
+	public OfInt iterator();
 
 	boolean add(int val);
 
 	boolean addAll(IntSet other);
 
 	boolean contains(int val);
+	
+	default boolean containsAll(IntSet other) {
+		for(OfInt itr = other.iterator(); itr.hasNext();)
+			if(!contains(itr.nextInt()))
+				return false;
+		return true;
+	}
 	
 	boolean remove(int val);
 	
@@ -138,6 +145,34 @@ public interface IntSet extends Set<Integer> {
 			final int next = itr.nextInt();
 			if(!other.contains(next))
 				itr.remove();
+		}
+	}
+	
+	@Override
+	default Object[] toArray() {
+		return toArray(new Integer[size()]);
+	}
+
+	/**
+	 * {@inheritDoc} <p><b>Throws a {@link ClassCastException} if {@code T} is not {@code Integer} or a supertype thereof.</b></p>
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	default <T> T[] toArray(T[] a) {
+		if(a.length < size()) {
+			T[] arr = (T[]) Arrays.copyOf(a, size(), a.getClass());
+			int index = 0;
+			for(PrimitiveIterator.OfInt itr = iterator(); itr.hasNext();)
+				arr[index++] = (T) itr.next();
+			return arr;
+		}
+		else {
+			int index = 0;
+			for(PrimitiveIterator.OfInt itr = iterator(); itr.hasNext();)
+				a[index++] = (T) itr.next();
+			if(index < a.length)
+				a[index] = null;
+			return a;
 		}
 	}
 	
