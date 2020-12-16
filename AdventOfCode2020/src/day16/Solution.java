@@ -15,9 +15,13 @@ import utils.*;
  */
 public class Solution {
 	
-	
+	/** The amount of numbers that appear on each ticket. */
+	private static final int NUMBERS_ON_TICKET = 20;
+
 	public static void main(String[] args) {
-		new Solution("src/day16/input.txt");
+		Solution s = new Solution("src/day16/input.txt");
+		s.solvePart1();
+		s.solvePart2();
 	}
 	
 	private final Map<String, IntPredicate> validationFunctions = new HashMap<>();
@@ -30,8 +34,6 @@ public class Solution {
 			sections[1].lines().skip(1).map(this::ticketFrom),
 			sections[2].lines().skip(1).map(this::ticketFrom)
 		).toArray(int[][]::new);
-		solvePart1();
-		solvePart2();
 	}
 	
 	private final int[] myTicket() {
@@ -43,14 +45,13 @@ public class Solution {
 	}
 	
 	private void createValidationFunctions(String fieldRules) {
-		fieldRules.lines().forEachOrdered(this::createValidationFunction);
+		fieldRules.lines().forEach(this::createValidationFunction);
 	}
 	
 	private void createValidationFunction(String fieldRule) {
 		String[] split = fieldRule.split(": ");
-		final String name = split[0];
 		int[] nums = Parsing.positiveints(split[1]).toArray();
-		validationFunctions.put(name, i -> Basics.between(i, nums[0], nums[1]) || Basics.between(i, nums[2], nums[3]));
+		validationFunctions.put(split[0], i -> Basics.between(i, nums[0], nums[1]) || Basics.between(i, nums[2], nums[3]));
 	}
 	
 	private boolean isValidForAny(int num) {
@@ -74,7 +75,7 @@ public class Solution {
 		int[][] validTickets = Arrays.stream(allTickets).filter(this::isValidTicket).toArray(int[][]::new);
 		for(Map.Entry<String, IntPredicate> entry : validationFunctions.entrySet()) {
 			IntPredicate func = entry.getValue();
-			IntSet set = IntSet.createHash(20);
+			IntSet set = IntSet.createHash(NUMBERS_ON_TICKET);
 			outer1:
 			for(int col = 0; col < validTickets[0].length; col++) {
 				for(int row = 0; row < validTickets.length; row++)
@@ -84,16 +85,13 @@ public class Solution {
 			}
 			indicesSatisfying.put(entry.getKey(), set);
 		}
-//		indicesSatisfying.forEach((name, set) -> System./out.printf("%s : %s%n", name, set));
 		
 		Map<String, Integer> correctIndices = new HashMap<>();
 		outer2:
 		while(!indicesSatisfying.isEmpty()) {
-//			System.out.printf("indicesSatisfying=%s%n", indicesSatisfying);
 			for(Iterator<Entry<String, IntSet>> iterator = indicesSatisfying.entrySet().iterator(); iterator.hasNext();) {
 				Map.Entry<String, IntSet> entry = iterator.next();
 				Set<Integer> set = entry.getValue();
-//				System.out.printf("\tentry=%s%n", entry);
 				if(set.size() == 1) {
 					int singleValue = set.iterator().next();
 					for(Set<Integer> otherSet : indicesSatisfying.values())
@@ -105,7 +103,6 @@ public class Solution {
 			}
 			throw new IllegalStateException("Shouldn't get here");
 		}
-//		System.out.println("correctIndices="+correctIndices);
 		long product = correctIndices.entrySet().stream().filter(e -> e.getKey().startsWith("departure"))
 				.mapToLong(e -> myTicket()[e.getValue()]).reduce(1, (a, b) -> a * b);
 		System.out.println("Part 2 = " + product);
