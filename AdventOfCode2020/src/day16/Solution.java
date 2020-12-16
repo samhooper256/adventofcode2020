@@ -49,15 +49,12 @@ public class Solution {
 	private void createValidationFunction(String fieldRule) {
 		String[] split = fieldRule.split(": ");
 		final String name = split[0];
-		int[] nums = Regex.NON_DIGITS.splitAsStream(split[1]).mapToInt(Integer::parseInt).toArray();
+		int[] nums = Parsing.positiveints(split[1]).toArray();
 		validationFunctions.put(name, i -> Basics.between(i, nums[0], nums[1]) || Basics.between(i, nums[2], nums[3]));
 	}
 	
 	private boolean isValidForAny(int num) {
-		for(IntPredicate function : validationFunctions.values())
-			if(function.test(num))
-				return true;
-		return false;
+		return Misc.satisfiesAny(num, validationFunctions.values());
 	}
 	
 	private long sumInvalidsOfAllTickets() {
