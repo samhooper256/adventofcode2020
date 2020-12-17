@@ -1,5 +1,6 @@
 package utils;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -14,11 +15,40 @@ public final class Arrs {
 	
 	private Arrs() {}
 	
+	/**
+	 * Returns {@code false} if the given object is {@code null}.
+	 */
+	public static boolean isArray(Object obj) {
+		return obj != null && obj.getClass().isArray();
+	}
+	
+	/**
+	 * Returns {@code true} if the given object is an array whose component type is a primitive type, {@code false} otherwise.
+	 * Returns {@code false} if the given object is {@code null}.
+	 */
+	public static boolean isPrimitiveArray(Object obj) {
+		return isArray(obj) && obj.getClass().componentType().isPrimitive();
+	}
+	
+	/**
+	 * Returns {@code true} if the given object is an array whose component type is a reference type, {@code false} otherwise.
+	 * Returns {@code false} if the given object is {@code null}.
+	 */
+	public static boolean isReferenceArray(Object obj) {
+		return isArray(obj) && !obj.getClass().componentType().isPrimitive();
+	}
+	
+	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(int[])}) and then returns the given array.
+	 */
 	public static int[] sorted(final int[] arr) {
 		Arrays.sort(arr);
 		return arr;
 	}
 	
+	/**
+	 * Returns a sorted copy of the given array. The given array is not modified.
+	 */
 	public static int[] sortedCopy(final int[] arr) {
 		int[] sorted = Arrays.copyOf(arr, arr.length);
 		Arrays.sort(sorted);
@@ -88,7 +118,7 @@ public final class Arrs {
 	}
 	
 	/**
-	 * <p>Index {@code i} in the returned array is the value of the elements from 0 to i (inclusive) in {@code arr}</p>
+	 * <p>Index {@code i} in the returned array is the sum of the elements from 0 to i (inclusive) in {@code arr}</p>
 	 */
 	public static int[] summed(final int[] arr) {
 		if(arr.length == 0)
@@ -101,7 +131,7 @@ public final class Arrs {
 	}
 	
 	/**
-	 * <p>Index {@code i} in the returned array is the value of the elements from 0 to i (inclusive) in {@code arr}</p>
+	 * <p>Index {@code i} in the returned array is the sum of the elements from 0 to i (inclusive) in {@code arr}</p>
 	 */
 	public static long[] summed(final long[] arr) {
 		if(arr.length == 0)
@@ -165,6 +195,118 @@ public final class Arrs {
 				return IntStream.of(sortedArr[i], pair.firstInt(), pair.secondInt());
 		}
 		return null;
+	}
+	
+	public static <T> void forEach(T[] arr, Consumer<T> action) {
+		for(T item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(int[] arr, IntConsumer action) {
+		for(int item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(long[] arr, LongConsumer action) {
+		for(long item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(double[] arr, DoubleConsumer action) {
+		for(double item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(boolean[] arr, BooleanConsumer action) {
+		for(boolean item : arr)
+			action.acceptBoolean(item);
+	}
+	
+	public static void forEach(char[] arr, CharConsumer action) {
+		for(char item : arr)
+			action.acceptChar(item);
+	}
+	
+	/**
+	 * The given array may have a primitive or reference component type.
+	 * @throws IllegalArgumentException if {@code arr} is not an array, or if the number of indices given does not equal the number of dimensions in the given array.
+	 */
+	public static boolean inBounds(Object arr, int... indices) {
+		Objects.requireNonNull(arr);
+		if(!Arrs.isArray(arr))
+			throw new IllegalArgumentException("The given Object is not an array");
+		return inBounds(0, arr, indices);
+		
+	}
+	
+	/** Assumes {@code arr} is an array. */
+	private static boolean inBounds(int startIndexInIndices, Object arr, int... indices) { //params are ordered strangely to avoid ambiguous method invocations.
+		if(startIndexInIndices >= indices.length)
+			throw new IllegalArgumentException("Number of indices does not match the number of dimensions of the array");
+		int index = indices[startIndexInIndices];
+		if(index < 0)
+			return false;
+		int length = Array.getLength(arr);
+		if(index >= length)
+			return false;
+		Class<?> component = arr.getClass().componentType();
+		if(component.isArray()) {
+			Object[] asArr = (Object[]) arr;
+			return inBounds(startIndexInIndices + 1, asArr[index], indices);
+		}
+		else {
+			if(startIndexInIndices != indices.length - 1)
+				throw new IllegalArgumentException("Number of indices does not match the number of dimensions of the array");
+			return true;
+		}
+	}
+	
+	public static boolean inBounds(boolean[] arr, int index) {
+		return index >= 0 && index < arr.length;
+	}
+	
+	public static boolean inBounds(boolean[][] arr, int index1, int index2) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2);
+	}
+	
+	public static boolean inBounds(boolean[][][] arr, int index1, int index2, int index3) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3);
+	}
+	
+	public static boolean inBounds(boolean[][][][] arr, int index1, int index2, int index3, int index4) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3, index4);
+	}
+	
+	public static boolean inBounds(char[] arr, int index) {
+		return index >= 0 && index < arr.length;
+	}
+	
+	public static boolean inBounds(char[][] arr, int index1, int index2) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2);
+	}
+	
+	public static boolean inBounds(char[][][] arr, int index1, int index2, int index3) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3);
+	}
+	
+	public static boolean inBounds(char[][][][] arr, int index1, int index2, int index3, int index4) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3, index4);
+	}
+	
+	public static boolean inBounds(int[] arr, int index) {
+		return index >= 0 && index < arr.length;
+	}
+	
+	public static boolean inBounds(int[][] arr, int index1, int index2) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2);
+	}
+	
+	public static boolean inBounds(int[][][] arr, int index1, int index2, int index3) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3);
+	}
+	
+	public static boolean inBounds(int[][][][] arr, int index1, int index2, int index3, int index4) {
+		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3, index4);
 	}
 	
 }

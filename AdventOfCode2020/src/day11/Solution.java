@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 import utils.*;
 
 /**
+ * Correct answers are 2211 (Part 1) and 1995 (Part 2).
  * @author Sam Hooper
  *
  */
@@ -21,11 +22,11 @@ public class Solution {
 
 	
 	private static void solvePart1(char[][] map) {
-		System.out.println(Grids.count(firstDiff(map, Solution::applied_1), Solution::isOccupied));
+		System.out.println(Dimensions.countSatisfyingChars(firstDiff(map, Solution::applied_1), Solution::isOccupied));
 	}
 	
 	private static void solvePart2(char[][] map) {
-		System.out.println(Grids.count(firstDiff(map, Solution::applied_2), Solution::isOccupied));
+		System.out.println(Dimensions.countSatisfyingChars(firstDiff(map, Solution::applied_2), Solution::isOccupied));
 	}
 	
 	private static char[][] firstDiff(char[][] map, UnaryOperator<char[][]> applyFunction) {

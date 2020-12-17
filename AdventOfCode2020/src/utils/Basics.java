@@ -1,6 +1,6 @@
 package utils;
-
 /**
+ * <p>All of the {@code inBounds} methods assume that the given array is not jagged.</p>
  * @author Sam Hooper
  *
  */

@@ -1,5 +1,7 @@
 package utils;
 
+import static utils.Arrs.inBounds;
+
 /**
  * <p>All methods in this class accepting (or returning) 2D arrays assume (or guarantee) that all rows will have the same length.</p>
  * @author Sam Hooper
@@ -28,15 +30,6 @@ public final class Grids {
 		return OptionalChar.empty();
 	}
 	
-	public static int count(final char[][] grid, final CharPredicate tester) {
-		int count = 0;
-		for(int r = 0; r < grid.length; r++)
-			for(int c = 0; c < grid[r].length; c++)
-				if(tester.test(grid[r][c]))
-					count++;
-		return count;
-	}
-	
 	public static void forEach8Adjacent(final char[][] grid, int row, int col, final CharConsumer consumer) {
 		for(int[] adj : ADJACENT_8) {
 			int nr = row + adj[0], nc = col + adj[1];
@@ -55,10 +48,4 @@ public final class Grids {
 		return count;
 	}
 	
-	/**
-	 * Assumes all rows have the same length.
-	 */
-	public static boolean inBounds(final char[][] grid, int row, int col) {
-		return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length;
-	}
 }
