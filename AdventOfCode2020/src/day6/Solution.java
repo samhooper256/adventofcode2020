@@ -24,21 +24,4 @@ public class Solution {
 		return Colls.intersectionInt(Stream.of(groupData.split("\n")).map(String::chars)).size();
 	}
 	
-	/*
-	private static int countEveryoneYes(final String groupData) {
-		final int[] yesCount = new int['z' - 'a' + 1];
-		groupData.chars().filter(Character::isLetter)
-		.forEach(c -> {
-			yesCount[c - 'a']++;
-		});
-		
-		int groupCount = Strings.count(groupData, '\n') + 1;
-		int total = 0;
-		for(int cnt : yesCount)
-			if(cnt == groupCount)
-				total += 1;
-		return total;
-		
-	}
-	*/
 }

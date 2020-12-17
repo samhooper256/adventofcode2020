@@ -1,8 +1,11 @@
 package day2;
 
+import java.util.stream.IntStream;
+
 import utils.*;
 
 /**
+ * Correct answers are 638 (Part 1) and 699 (Part 2).
  * @author Sam Hooper
  *
  */
@@ -25,6 +28,8 @@ public class Solution {
 		return Pair.of(Integer.parseInt(dashPart.substring(0, dash)), Integer.parseInt(dashPart.substring(dash + 1)));
 	}
 	
+	
+	
 	private static boolean isValidPasswordForPart1(String line) {
 		String[] split = line.split(":? ");
 		IntPair dashNums = dashNums(split[0]);
@@ -41,5 +46,4 @@ public class Solution {
 		IntPair dashNums = dashNums(split[0]);
 		return split[2].charAt(dashNums.firstInt() - 1) == c ^ split[2].charAt(dashNums.secondInt() - 1) == c;
 	}
-	
 }

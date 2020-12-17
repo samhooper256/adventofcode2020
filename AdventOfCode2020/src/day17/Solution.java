@@ -24,11 +24,9 @@ public class Solution {
 		final int consideredX = input.length, consideredY = input[0].length, consideredZ = 1;
 		Supplier<boolean[][][]> emptyFactory = () -> new boolean[consideredX + ITERATIONS * 2][consideredY + ITERATIONS * 2][consideredZ + ITERATIONS * 2];
 		boolean[][][] states = emptyFactory.get();
-		for(int x = 0; x < input.length; x++) {
-			for(int y = 0; y < input[x].length; y++) {
+		for(int x = 0; x < input.length; x++)
+			for(int y = 0; y < input[x].length; y++)
 				states[x + ITERATIONS][y + ITERATIONS][ITERATIONS + 1] = isActive(input[x][y]);
-			}
-		}
 		
 //		System.out.printf("BEFORE ITRS:%n%s%n%n", Debug.toConciseString(states, '#', '.'));
 		for(int iteration = 1; iteration <= ITERATIONS; iteration++) {

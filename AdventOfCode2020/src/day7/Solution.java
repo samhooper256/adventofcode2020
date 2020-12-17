@@ -60,22 +60,19 @@ public class Solution {
 		System.out.println(countContaining(getEdgeMap(), TARGET_COLOR));
 	}
 	
-	private static BigInteger countContaining(final Map<String, List<IntObjPair<String>>> edgeMap, String color) {
-		BigInteger negOne = BigInteger.valueOf(-1);
-		Map<String, BigInteger> counts = new HashMap<>();
+	private static long countContaining(final Map<String, List<IntObjPair<String>>> edgeMap, String color) {
+		Map<String, Long> counts = new HashMap<>();
 		for(String s : edgeMap.keySet())
-			counts.put(s, negOne);
+			counts.put(s, -1L);
 		return countContaining(edgeMap, color, counts);
 	}
 
-	private static BigInteger countContaining(final Map<String, List<IntObjPair<String>>> edgeMap, String color, Map<String, BigInteger> counts) {
-		if(!BigNumbers.isNegative(counts.get(color)))
+	private static long countContaining(final Map<String, List<IntObjPair<String>>> edgeMap, String color, Map<String, Long> counts) {
+		if(counts.get(color) >= 0)
 			return counts.get(color);
-		BigInteger sum = BigInteger.ZERO;
-		for(IntObjPair<String> data : edgeMap.get(color)) {
-			final BigInteger dataCount = BigInteger.valueOf(data.intPart());
-			sum = sum.add(dataCount.multiply(countContaining(edgeMap, data.objPart(), counts))).add(dataCount);
-		}
+		long sum = 0;
+		for(IntObjPair<String> data : edgeMap.get(color))
+			sum += data.intPart() * (countContaining(edgeMap, data.objPart(), counts) + 1);
 		counts.put(color, sum);
 		return sum;
 	}
@@ -87,16 +84,17 @@ public class Solution {
 			String left = cSplit[0];
 			if(line.endsWith("no other bags.")) {
 				map.put(left, Collections.emptyList());
-				return;
 			}
-			final String[] rSplit = cSplit[1].split(", ");
-			final ArrayList<IntObjPair<String>> list = new ArrayList<>(rSplit.length);
-			for(String splitHalf : rSplit) {
-				int sIndex = splitHalf.indexOf(' ');
-				String color = splitHalf.substring(sIndex + 1, splitHalf.lastIndexOf(" bag"));
-				list.add(Pair.of(Integer.parseInt(splitHalf.substring(0, sIndex)), color));
+			else {
+				final String[] rSplit = cSplit[1].split(", ");
+				final ArrayList<IntObjPair<String>> list = new ArrayList<>(rSplit.length);
+				for(String splitHalf : rSplit) {
+					int sIndex = splitHalf.indexOf(' ');
+					String color = splitHalf.substring(sIndex + 1, splitHalf.lastIndexOf(" bag"));
+					list.add(Pair.of(Integer.parseInt(splitHalf.substring(0, sIndex)), color));
+				}
+				map.put(left, list);
 			}
-			map.put(left, list);
 		});
 		return map;
 	}

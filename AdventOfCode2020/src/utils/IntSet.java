@@ -131,6 +131,12 @@ public interface IntSet extends Set<Integer> {
 
 	boolean contains(int val);
 	
+	default boolean addAll(int... values) {
+		boolean changed = false;
+		for(int val : values)
+			changed |= add(val);
+		return changed;
+	}
 	default boolean containsAll(IntSet other) {
 		for(OfInt itr = other.iterator(); itr.hasNext();)
 			if(!contains(itr.nextInt()))

@@ -1,6 +1,6 @@
 package utils;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Sam Hooper
@@ -9,6 +9,11 @@ import java.util.List;
 public final class Maths {
 	
 	public static void main(String[] args) {
+		System.out.println(LONG_MIN_VALUE_STRING);
+		System.out.println(LONG_MAX_VALUE_STRING);
+		Scanner in = new Scanner(System.in);
+		while(in.hasNextLine())
+			System.out.println(islong(in.nextLine()));
 	}
 	
 	private Maths() {}
@@ -51,8 +56,12 @@ public final class Maths {
 	}
 	
 	public static final int MIN_RADIX = 2, MAX_RADIX = 16;
+	
 	public static final String INTEGER_MAX_VALUE_STRING = Integer.toString(Integer.MAX_VALUE);
 	public static final String INTEGER_MIN_VALUE_STRING = Integer.toString(Integer.MIN_VALUE);
+	public static final String LONG_MAX_VALUE_STRING = Long.toString(Long.MAX_VALUE);
+	public static final String LONG_MIN_VALUE_STRING = Long.toString(Long.MIN_VALUE);
+	
 	private static final List<Character> RADIX_CHARS = List.of('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
 	
 	/**
@@ -63,8 +72,10 @@ public final class Maths {
 	}
 	
 	public static boolean isint(final String s) {
+		if(s.length() == 0)
+			return false;
 		final boolean neg = s.charAt(0) == '-';
-		if((neg && s.length() > 11) || (!neg && s.length() > 10) || s.length() == 0)
+		if((neg && (s.length() == 1 || s.length() > 11)) || (!neg && s.length() > 10))
 			return false;
 		for(int i = neg ? 1 : 0; i < s.length(); i++)
 			if(!isDigit(s.charAt(i)))
@@ -76,6 +87,24 @@ public final class Maths {
 			return s.compareTo(INTEGER_MIN_VALUE_STRING) <= 0;
 		else
 			return s.compareTo(INTEGER_MAX_VALUE_STRING) <= 0;
+	}
+	
+	public static boolean islong(final String s) {
+		if(s.length() == 0)
+			return false;
+		final boolean neg = s.charAt(0) == '-';
+		if((neg && (s.length() == 1 || s.length() > 20)) || (!neg && s.length() > 19))
+			return false;
+		for(int i = neg ? 1 : 0; i < s.length(); i++)
+			if(!isDigit(s.charAt(i)))
+				return false;
+		
+		if(neg && s.length() < 20 || !neg && s.length() < 19)
+			return true;
+		if(neg)
+			return s.compareTo(LONG_MIN_VALUE_STRING) <= 0;
+		else
+			return s.compareTo(LONG_MAX_VALUE_STRING) <= 0;
 	}
 	
 	public static boolean isInteger(final String s) {

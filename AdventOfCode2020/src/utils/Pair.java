@@ -43,4 +43,10 @@ public interface Pair<T1, T2> {
 	
 	T2 second();
 	
+	/** Returns a {@code String} whose value is equivalent to {@code (first().toString() + second.toString())}.
+	 */
+	default String concatenated() {
+		return first().toString() + second().toString();
+	}
+	
 }
