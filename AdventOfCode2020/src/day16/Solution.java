@@ -1,7 +1,6 @@
 package day16;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.function.*;
 import java.util.regex.*;
 import java.util.stream.*;
@@ -89,7 +88,7 @@ public class Solution {
 		Map<String, Integer> correctIndices = new HashMap<>();
 		outer2:
 		while(!indicesSatisfying.isEmpty()) {
-			for(Iterator<Entry<String, IntSet>> iterator = indicesSatisfying.entrySet().iterator(); iterator.hasNext();) {
+			for(Iterator<Map.Entry<String, IntSet>> iterator = indicesSatisfying.entrySet().iterator(); iterator.hasNext(); ) {
 				Map.Entry<String, IntSet> entry = iterator.next();
 				Set<Integer> set = entry.getValue();
 				if(set.size() == 1) {
