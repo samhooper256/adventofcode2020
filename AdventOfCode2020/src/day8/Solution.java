@@ -32,7 +32,7 @@ public class Solution {
 		private Pair<Boolean, Long> getResult() {
 			accumulator = 0;
 			int nextInstruction = 0;
-			IntSet seen = IntSet.createHash(100);
+			IntSet seen = new HashIntSet(100);
 			while(!seen.contains(nextInstruction)) {
 				if(nextInstruction >= input.length)
 					return Pair.of(true, accumulator);

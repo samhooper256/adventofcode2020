@@ -2,6 +2,7 @@ package utils;
 
 import java.util.*;
 import java.util.PrimitiveIterator.OfInt;
+import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 /**
  * @author Sam Hooper
@@ -9,7 +10,7 @@ import java.util.stream.IntStream;
  */
 public interface IntSet extends Set<Integer> {
 	
-	IntSet EMPTY = unmodifiable(new HashIntSet(1));
+	IntSet EMPTY = unmodifiable(new HashIntSet(0));
 	
 	public static IntSet unmodifiable(final IntSet set) {
 		return new IntSet() {
@@ -110,14 +111,6 @@ public interface IntSet extends Set<Integer> {
 		return stream.collect(HashIntSet::new, HashIntSet::add, HashIntSet::addAll);
 	}
 	
-	public static HashIntSet createHash(final int capacity) {
-		return createHash(capacity, HashIntSet.DEFAULT_LOAD_FACTOR);
-	}
-	
-	public static HashIntSet createHash(final int capacity, final float loadFactor) {
-		return new HashIntSet(capacity, loadFactor);
-	}
-	
 	
 	/**
 	 * {@inheritDoc}
@@ -127,9 +120,16 @@ public interface IntSet extends Set<Integer> {
 
 	boolean add(int val);
 
-	boolean addAll(IntSet other);
-
 	boolean contains(int val);
+	
+	boolean remove(int val);
+	
+	default boolean addAll(final IntSet other) {
+		boolean changed = false;
+		for(PrimitiveIterator.OfInt itr = other.iterator(); itr.hasNext(); )
+			changed |= add(itr.nextInt());
+		return changed;
+	}
 	
 	default boolean addAll(int... values) {
 		boolean changed = false;
@@ -137,6 +137,7 @@ public interface IntSet extends Set<Integer> {
 			changed |= add(val);
 		return changed;
 	}
+	
 	default boolean containsAll(IntSet other) {
 		for(OfInt itr = other.iterator(); itr.hasNext();)
 			if(!contains(itr.nextInt()))
@@ -144,14 +145,82 @@ public interface IntSet extends Set<Integer> {
 		return true;
 	}
 	
-	boolean remove(int val);
-	
-	default void retainAll(final IntSet other) {
+	default boolean retainAll(final IntSet other) {
+		boolean changed = false;
 		for(OfInt itr = iterator(); itr.hasNext();) {
-			final int next = itr.nextInt();
-			if(!other.contains(next))
+			if(!other.contains(itr.nextInt())) {
 				itr.remove();
+				changed = true;
+			}
 		}
+		return changed;
+	}
+	
+	default boolean removeAll(IntSet other) {
+		boolean changed = false;
+		for(OfInt itr = other.iterator(); itr.hasNext();)
+			changed |= remove(itr.nextInt());
+		return changed;
+	}
+	
+	/** The {@code ints} are consumed in the same order as in the {@link #iterator()}. */
+	default void forEachInt(IntConsumer action) {
+		for(OfInt itr = iterator(); itr.hasNext();)
+			action.accept(itr.nextInt());
+	}
+	
+	@Override
+	default boolean add(Integer e) {
+		return add(e.intValue());
+	}
+	
+	@Override
+	default boolean contains(Object o) {
+		return o instanceof Integer && contains(((Integer) o).intValue());
+	}
+	
+	@Override
+	default boolean addAll(Collection<? extends Integer> c) {
+		if(c instanceof IntSet)
+			return addAll((IntSet) c);
+		boolean changed = false;
+		for(Integer i : c) //throws NPE if c is null, as required
+			changed |= add(i.intValue()); //throws NPE if i is null, as required
+		return changed;
+	}
+	
+	@Override
+	default boolean containsAll(Collection<?> c) {
+		if(c instanceof IntSet)
+			return containsAll((IntSet) c);
+		for(Object o : c)
+			if(!contains(o))
+				return false;
+		return true;
+	}
+	
+	@Override
+	default boolean retainAll(Collection<?> c) {
+		if(c instanceof IntSet)
+			return retainAll((IntSet) c);
+		boolean changed = false;
+		for(Iterator<?> itr = iterator(); itr.hasNext();) {
+			if(!c.contains(itr.next())) {
+				itr.remove();
+				changed = true;
+			}
+		}
+		return changed;
+	}
+	
+	@Override
+	default boolean removeAll(Collection<?> c) {
+		if(c instanceof IntSet)
+			return removeAll((IntSet) c);
+		boolean changed = false;
+		for(Object o : c)
+			changed |= remove(o);
+		return changed;
 	}
 	
 	@Override

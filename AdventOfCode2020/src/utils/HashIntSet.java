@@ -88,11 +88,19 @@ public class HashIntSet implements IntSet {
 		this(DEFAULT_CAPACITY);
 	}
 	
+	/**
+	 * @throws IllegalArgumentException if {@code (capacity < 0)}.
+	 */
 	public HashIntSet(final int capacity) {
 		this(capacity, DEFAULT_LOAD_FACTOR);
 	}
 	
+	/**
+	 * @throws IllegalArgumentException if {@code (capacity < 0)}.
+	 */
 	public HashIntSet(final int capacity, final float loadFactor) {
+		if(capacity < 0)
+			throw new IllegalArgumentException("capacity < 0");
 		this.buckets = new Node[capacity];
 		this.loadFactor = loadFactor;
 	}
@@ -127,20 +135,11 @@ public class HashIntSet implements IntSet {
 		}
 	}
 	
-	@Override
-	public boolean addAll(final IntSet other) {
-		boolean changed = false;
-		for(PrimitiveIterator.OfInt itr = other.iterator(); itr.hasNext(); )
-			changed |= add(itr.nextInt());
-		return changed;
-	}
-	
 	
 	private void expand() {
-//		Node[] newBuckets = new Node[buckets.length << 1];
-//		for(int bi = 0; bi < this.buckets.length; bi++) {
-//			
-//		}
+		Node[] newBuckets = new Node[buckets.length << 1];
+		forEachInt(i -> add(i, newBuckets));
+		this.buckets = newBuckets;
 	}
 	
 	@Override
@@ -331,47 +330,10 @@ public class HashIntSet implements IntSet {
 	}
 
 	@Override
-	public boolean contains(Object o) {
-		return o.getClass() == Integer.class && contains(((Integer) o).intValue());
-	}
-
-	@Override
-	public boolean add(Integer e) {
-		return add(e.intValue());
-	}
-
-	@Override
 	public boolean remove(Object o) {
-		if(o.getClass() == Integer.class)
+		if(o instanceof Integer)
 			return remove(((Integer) o).intValue());
 		return false;
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		if(c instanceof IntSet)
-			return containsAll((IntSet) c);
-		for(Object o : c)
-			if(!contains(o))
-				return false;
-		return true;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends Integer> c) {
-		if(c instanceof IntSet)
-			return addAll((IntSet) c);
-		throw new UnsupportedOperationException(); //TODO
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException(); //TODO
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException(); //TODO
 	}
 
 	@Override

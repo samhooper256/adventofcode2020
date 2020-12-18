@@ -156,7 +156,7 @@ public final class Arrs {
 	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
 	 */
 	public static IntPair sum2ToTarget(final int[] arr, final int target, final int startInclusive, final int endExclusive) {
-		IntSet set = IntSet.createHash(arr.length);
+		IntSet set = new HashIntSet(arr.length);
 		for(int i = startInclusive; i < endExclusive; i++)
 			set.add(arr[i]);
 		for(int i = startInclusive; i < endExclusive; i++)

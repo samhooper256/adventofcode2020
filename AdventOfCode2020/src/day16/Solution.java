@@ -74,7 +74,7 @@ public class Solution {
 		int[][] validTickets = Arrays.stream(allTickets).filter(this::isValidTicket).toArray(int[][]::new);
 		for(Map.Entry<String, IntPredicate> entry : validationFunctions.entrySet()) {
 			IntPredicate func = entry.getValue();
-			IntSet set = IntSet.createHash(NUMBERS_ON_TICKET);
+			IntSet set = new HashIntSet(NUMBERS_ON_TICKET);
 			outer1:
 			for(int col = 0; col < validTickets[0].length; col++) {
 				for(int row = 0; row < validTickets.length; row++)
