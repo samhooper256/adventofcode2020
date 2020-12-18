@@ -3,6 +3,7 @@ package day17;
 import java.util.function.Supplier;
 
 import utils.*;
+import utils.function.BooleanPredicate;
 
 /**
  * Correct answers are 265 (Part 1) and 1936 (Part 2).

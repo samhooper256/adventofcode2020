@@ -6,6 +6,7 @@ import java.util.function.*;
 import java.util.stream.*;
 
 import utils.colls.*;
+import utils.function.*;
 
 /**
  * <p>All methods throw a {@link NullPointerException} if a parameter is {@code null}, unless that parameter is explicitly allowed to be {@code null} by the method

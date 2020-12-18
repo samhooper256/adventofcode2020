@@ -2,6 +2,8 @@ package utils;
 
 import java.util.function.*;
 
+import utils.function.*;
+
 /**
  * Utilities for operating on higher dimensional things (such as arrays).
  * @author Sam Hooper
@@ -73,6 +75,7 @@ public final class Dimensions {
 	 * <li>the given array is a {@code char[]} and {@code consumer} is not a {@link CharConsumer}.</li>
 	 * </ul>
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> void forEach(Object arr, Consumer<T> consumer) {
 		if(arr instanceof Object[]) {
 			Object[] asArr = (Object[]) arr;
@@ -164,6 +167,7 @@ public final class Dimensions {
 	/**
 	 * The element type of the given array must be a reference type.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int countSatisfying(Object arr, Predicate<T> predicate) {
 		int[] count = {0};
 		forEach(arr, x -> {

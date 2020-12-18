@@ -2,6 +2,8 @@ package utils;
 
 import static utils.Arrs.inBounds;
 
+import utils.function.*;
+
 /**
  * <p>All methods in this class accepting (or returning) 2D arrays assume (or guarantee) that all rows will have the same length.</p>
  * @author Sam Hooper

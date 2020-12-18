@@ -1,4 +1,4 @@
-package utils;
+package utils.function;
 
 import java.util.function.*;
 

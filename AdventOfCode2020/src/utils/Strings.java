@@ -1,5 +1,7 @@
 package utils;
 
+import utils.function.CharPredicate;
+
 /**
  * @author Sam Hooper
  *
