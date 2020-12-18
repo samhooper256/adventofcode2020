@@ -1,6 +1,7 @@
 package day12;
 
 import utils.*;
+import utils.colls.*;
 
 import static utils.CardinalDirection.*;
 /**
@@ -88,7 +89,7 @@ public class SimpleShip {
 	
 	/** Returns the location of this {@link SimpleShip} as an ordered pair of ({@link #getRow() row}, {@link #getCol() col}).*/
 	public IntPair location() {
-		return Pair.of(getRow(), getCol());
+		return IntPair.of(getRow(), getCol());
 	}
 	
 	

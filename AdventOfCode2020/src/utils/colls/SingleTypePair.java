@@ -1,6 +1,6 @@
-package utils;
+package utils.colls;
 
-import java.util.function.IntFunction;
+import java.util.function.*;
 
 /**
  * @author Sam Hooper
@@ -8,7 +8,7 @@ import java.util.function.IntFunction;
  */
 public interface SingleTypePair<T> extends Pair<T, T> {
 	
-	public static <T> ImmutableSingleTypePair<T> of(T first, T second) {
+	public static <T> SingleTypePair<T> of(T first, T second) {
 		return new ImmutableSingleTypePair<>(first, second);
 	}
 	
@@ -18,17 +18,15 @@ public interface SingleTypePair<T> extends Pair<T, T> {
 	 * @param arr
 	 * @return
 	 */
-	public static <T> ImmutableSingleTypePair<T> of(T[] arr) {
+	@SafeVarargs
+	public static <T> SingleTypePair<T> of(T... arr) {
 		if(arr.length < 2)
 			throw new IllegalArgumentException("arr.length < 2");
 		return of(arr[0], arr[1]);
 	}
 	
-	@SuppressWarnings("unchecked")
-	default <S> S[] toArray(IntFunction<S[]> generator) {
-		S[] arr = generator.apply(2);
-		arr[0] = (S) first();
-		arr[1] = (S) second();
-		return arr;
+	default T combine(BinaryOperator<T> combiner) {
+		return combiner.apply(first(), second());
 	}
+	
 }

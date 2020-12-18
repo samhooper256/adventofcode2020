@@ -1,6 +1,7 @@
-package utils;
+package utils.colls;
 
 import java.util.Objects;
+import java.util.stream.LongStream;
 
 /**
  * <p>An immutable {@link Pair} of {@code longs}. The {@link #first()} and {@link #second()} elements can be retrieved as {@code longs} via {@link #firstLong()} and
@@ -9,6 +10,13 @@ import java.util.Objects;
  *
  */
 public class LongPair implements SingleTypePair<Long> {
+	
+	/**
+	 * Returns an {@link LongPair} containing the two {@code longs}.
+	 */
+	public static LongPair of(final long first, final long second) {
+		return new LongPair(first, second);
+	}
 	
 	private final long first, second;
 	
@@ -34,12 +42,17 @@ public class LongPair implements SingleTypePair<Long> {
 	public Long second() {
 		return secondLong();
 	}
+	
+	/** The returned {@link LongStream} is ordered with {@link #first()} followed by {@link #second()}. */
+	public LongStream streamLongs() {
+		return LongStream.of(first(), second());
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(first, second);
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(this == obj)
@@ -54,6 +67,6 @@ public class LongPair implements SingleTypePair<Long> {
 	
 	@Override
 	public String toString() {
-		return "(" + firstLong() + ", " + secondLong() + ")";
+		return Pair.toString(this);
 	}
 }

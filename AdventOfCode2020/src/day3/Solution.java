@@ -1,11 +1,12 @@
 package day3;
 
-import static utils.Pair.of;
+import static utils.colls.IntPair.of;
 
 import java.util.Arrays;
 import java.util.stream.*;
 
 import utils.*;
+import utils.colls.IntPair;
 
 
 /**

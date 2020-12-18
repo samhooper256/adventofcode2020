@@ -1,4 +1,4 @@
-package utils;
+package utils.colls;
 
 import java.util.*;
 import java.util.PrimitiveIterator.OfInt;

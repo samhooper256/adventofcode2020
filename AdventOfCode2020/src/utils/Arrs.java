@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
+import utils.colls.*;
+
 /**
  * <p>All methods throw a {@link NullPointerException} if a parameter is {@code null}, unless that parameter is explicitly allowed to be {@code null} by the method
  * documentation.</p>
@@ -161,7 +163,7 @@ public final class Arrs {
 			set.add(arr[i]);
 		for(int i = startInclusive; i < endExclusive; i++)
 			if(set.contains(target - arr[i]))
-				return Pair.of(arr[i], target - arr[i]);
+				return IntPair.of(arr[i], target - arr[i]);
 		return null;
 	}
 	

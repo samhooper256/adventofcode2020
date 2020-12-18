@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 import utils.*;
+import utils.colls.*;
 
 /**
  * @author Sam Hooper
@@ -91,7 +92,7 @@ public class Solution {
 				for(String splitHalf : rSplit) {
 					int sIndex = splitHalf.indexOf(' ');
 					String color = splitHalf.substring(sIndex + 1, splitHalf.lastIndexOf(" bag"));
-					list.add(Pair.of(Integer.parseInt(splitHalf.substring(0, sIndex)), color));
+					list.add(IntObjPair.of(Integer.parseInt(splitHalf.substring(0, sIndex)), color));
 				}
 				map.put(left, list);
 			}

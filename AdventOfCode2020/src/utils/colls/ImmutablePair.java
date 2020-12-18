@@ -1,4 +1,4 @@
-package utils;
+package utils.colls;
 
 import java.util.Objects;
 
@@ -46,6 +46,6 @@ public class ImmutablePair<T1, T2> implements Pair<T1, T2> {
 	
 	@Override
 	public String toString() {
-		return "(" + first() + ", " + second() + ")";
+		return Pair.toString(this);
 	}
 }

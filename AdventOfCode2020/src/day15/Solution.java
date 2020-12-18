@@ -2,7 +2,7 @@ package day15;
 
 import java.util.*;
 
-import utils.IntList;
+import utils.colls.IntList;
 
 /**
  * Input: "18,11,9,0,5,1"

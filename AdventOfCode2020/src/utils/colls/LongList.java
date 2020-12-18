@@ -1,57 +1,58 @@
-package utils;
+package utils.colls;
 
 import java.util.*;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @author Sam Hooper
  *
  */
-public class IntList implements Iterable<Integer> {
+public class LongList implements Iterable<Long> {
 	/** stores 0 in unused indices. The used indices are those in the range 0 (inclusive) to size (exclusive). */
-	int[] data; 
-	/** The number of elements in this {@code IntList}. It is always true that {@code size <= data.length}.*/
+	long[] data; 
+	/** The number of elements in this {@link LongList}. It is always true that {@code size <= data.length}.*/
 	int size;
 	
-	/** Returns a freshly created {@code IntList} containing exactly {@code numElements} elements, all of which are 0.
+	/** Returns a freshly created {@link LongList} containing exactly {@code numElements} elements, all of which are 0.
 	 * The capacity of the returned list is {@code numElements}.*/
-	public static IntList zeroList(int numElements) {
+	public static LongList zeroList(int numElements) {
 		return zeroList(numElements, numElements);
 	}
 	
-	/** Returns a freshly created {@code IntList} containing exactly {@code numElements} elements, all of which are 0.
+	/** Returns a freshly created {@code LongList} containing exactly {@code numElements} elements, all of which are 0.
 	 * The capacity of the returned list is {@code capacity}.*/
-	public static IntList zeroList(int numElements, int capacity) {
-		if(capacity < numElements) throw new IllegalArgumentException("capacity < numElements");
-		IntList l = new IntList(capacity);
+	public static LongList zeroList(int numElements, int capacity) {
+		if(capacity < numElements)
+			throw new IllegalArgumentException("capacity < numElements");
+		LongList l = new LongList(capacity);
 		l.size = numElements;
 		return l;
 	}
 	
-	/** Constructs an empty {@link IntList} with a capacity of {@code 10}. */
-	public IntList() { this(10); }
+	/** Constructs an empty {@link LongList} with a capacity of {@code 10}. */
+	public LongList() { this(10); }
 	
-	/** Be sure that you don't accidentally try to use this constructor to make a single-element {@code IntList} */
-	public IntList(int capacity) {
-		data = new int[capacity];
+	/** Be sure that you don't accidentally try to use this constructor to make a single-element {@code LongList} */
+	public LongList(int capacity) {
+		data = new long[capacity];
 	}
 	
-	/** Creates an {@code IntList} containing the values in the array. The capacity is set to the length of the array. */
-	public IntList(int... copyFrom) {
+	/** Creates an {@code LongList} containing the values in the array. The capacity is set to the length of the array. */
+	public LongList(long... copyFrom) {
 		this(copyFrom, copyFrom.length);
 	}
 	
-	/** Creates an {@code IntList} containing the first {@code capacity} values of {@code copyFrom} with
+	/** Creates an {@code LongList} containing the first {@code capacity} values of {@code copyFrom} with
 	 * capacity {@code capacity}. If {@code capacity > copyFrom.length}, then all of the elements of {@code copyFrom}
 	 * are added and the size of the list is the number of elements in {@code copyFrom}.
 	 */
-	public IntList(int[] copyFrom, int capacity) {
+	public LongList(long[] copyFrom, int capacity) {
 		data = Arrays.copyOf(copyFrom, capacity);
 		size = Math.min(capacity, copyFrom.length);
 	}
 	
-	public IntList(IntList copyFrom) {
+	public LongList(LongList copyFrom) {
 		data = Arrays.copyOf(copyFrom.data, copyFrom.data.length);
 		size = copyFrom.size;
 	}
@@ -63,18 +64,18 @@ public class IntList implements Iterable<Integer> {
 	/** Adds the given item to this list without checking if the internal array has enough capacity. May throw an
 	 * {@link IndexOutOfBoundsException}.
 	 */
-	public void addSafe(int item) {
+	public void addSafe(long item) {
 		data[size++] = item;
 	}
 	
 	/** Adds the given item to this list, automatically expanding this list's capacity if needed. */
-	public void add(int item) {
+	public void add(long item) {
 		add(size, item);
 	}
 	
 	/** Adds the given item to this list at the given index (such that, after this call, {@code get(index) == item}),
 	 * automatically expanding this list's capacity if needed. */
-	public void add(int index, int item) {
+	public void add(final int index, final long item) {
 		if(index > size)
 			throw new IllegalArgumentException("index > size");
 		if(size == data.length)
@@ -92,21 +93,22 @@ public class IntList implements Iterable<Integer> {
 			data[index] = data[--index];
 	}
 	
-	public void set(int index, int item) {
-		if(index >= size) throw new IllegalArgumentException("index >= size");
+	public void set(int index, long item) {
+		if(index >= size)
+				throw new IllegalArgumentException("index >= size");
 		setSafe(index, item);
 	}
 	
 	/** Sets the element at given index to the given item, without performing bounds checks. This method allows the
 	 * caller to set the value of any index in {@code data}, even if it that index is greater than or equal to {@link #size}.
 	 * Does not change {@code size}.*/
-	private void setSafe(int index, int item) {
+	private void setSafe(final int index, final long item) {
 		data[index] = item;
 	}
 	
 	/** Removes the first (lowest index) occurrence of {@code item}. Returns false if {@code item} was not present,
 	 * true otherwise. */
-	public boolean remove(int item) {
+	public boolean remove(long item) {
 		for(int i = 0; i < size; i++) {
 			if(data[i] == item) {
 				removeByIndexSafe(i);
@@ -116,18 +118,20 @@ public class IntList implements Iterable<Integer> {
 		return false;
 	}
 	
-	/** throws {@link ArrayIndexOutOfBoundsException} if {@code index} is negative or greater than or equal to the
-	 * size of this {@code IntList}. */
-	public int removeByIndex(int index) {
-		if(index >= size) throw new ArrayIndexOutOfBoundsException("index >= size");
+	/** Removes and returns the element at {@code index}.
+	 * throws {@link ArrayIndexOutOfBoundsException} if {@code index} is negative or greater than or equal to the
+	 * size of this {@code LongList}. */
+	public long removeByIndex(int index) {
+		if(index >= size)
+			throw new ArrayIndexOutOfBoundsException("index >= size");
 		return removeByIndexSafe(index);
 	}
 	
 	/**
-	 * Removes the element at index {@code index} in this {@link IntList}. No bounds checking is done on {@code index}.
+	 * Removes and returns the element at index {@code index} in this {@link LongList}. No bounds checking is done on {@code index}.
 	 */
-	public int removeByIndexSafe(int index) {
-		int value = data[index]; 
+	public long removeByIndexSafe(final int index) {
+		final long value = data[index]; 
 		for(int j = index; j < size - 1; j++)
 			data[j] = data[j + 1];
 		size--;
@@ -137,45 +141,41 @@ public class IntList implements Iterable<Integer> {
 	
 	/** Removes and returns the last (highest index/rightmost) element in this list. Throws {@link NoSuchElementException} if
 	 * the list is empty.*/
-	public int pop() {
+	public long  pop() {
 		if(size == 0)
 			throw new NoSuchElementException();
 		return popSafe();
 	}
 	
 	/** Removes and returns the last (highest index/rightmost) element in this list. Assumes the list is not empty. */
-	public int popSafe() {
-		int value = data[--size];
+	public long popSafe() {
+		long value = data[--size];
 		data[size] = 0;
 		return value;
 	}
 	
 	/** Returns the last (highest index/rightmost) element in this list. Throws {@link NoSuchElementException} if the list is empty */
-	public int peek() {
+	public long peek() {
 		if(size == 0)
 			throw new NoSuchElementException();
 		return peekSafe();
 	}
 	
 	/** Returns the last (highest index/rightmost) element in this list. Assumes the list is not empty.*/
-	public int peekSafe() {
+	public long peekSafe() {
 		return data[size - 1];
 	}
 	
-	public boolean contains(int item) {
-		return indexOf(item) >= 0;
-	}
-	
-	public int indexOf(int item) {
+	public boolean contains(long item) {
 		for(int i = 0; i < size; i++)
 			if(data[i] == item)
-				return i;
-		return -1;
+				return true;
+		return false;
 	}
 	
 	/** Returns the item at the given index. Throws {@link ArrayIndexOutOfBoundsException} if {@code index} is negative
 	 * or greater than or equal to {@code size}.*/
-	public int get(int index) {
+	public long get(int index) {
 		return data[index];
 	}
 	
@@ -184,7 +184,7 @@ public class IntList implements Iterable<Integer> {
 	}
 	
 	public void clear() {
-		Arrays.fill(data, 0, size, 0);
+		Arrays.fill(data, 0, size, 0L);
 		size = 0;
 	}
 	
@@ -196,34 +196,34 @@ public class IntList implements Iterable<Integer> {
 		return data.length;
 	}
 	
-	/** Sets this {@code IntList}'s capacity to {@code minCapacity} if {@code minCapacity} is greater than its current capacity.
+	/** Sets this {@code LongList}'s capacity to {@code minCapacity} if {@code minCapacity} is greater than its current capacity.
 	 * Has no effect otherwise.*/
 	public void ensureCapacity(int minCapacity) {
 		if(minCapacity > data.length)
 			data = Arrays.copyOf(data, minCapacity);
 	}
 	
-	public void forEach(IntConsumer consumer) {
+	public void forEach(LongConsumer consumer) {
 		for(int i = 0; i < size; i++)
 			consumer.accept(data[i]);
 	}
 	
-	public IntStream stream() {
+	public LongStream stream() {
 		return Arrays.stream(data, 0, size);
 	}
 	
 	/**
-	 * Note that it will likely be more efficient to iterate over the elements of this {@code IntList} without using
-	 * the iterator, as it will not require boxing to {@link Integer}. The returned iterator makes no guarantees about
+	 * Note that it will likely be more efficient to iterate over the elements of this {@code LongList} without using
+	 * the iterator, as it will not require boxing to {@link Long}. The returned iterator makes no guarantees about
 	 * its behavior if elements are added or removed from this list after it has been created, except by its on
 	 * remove method.
 	 */
 	@Override
-	public java.util.Iterator<Integer> iterator() {
+	public java.util.Iterator<Long> iterator() {
 		return new Itr();
 	}
 	
-	private class Itr implements Iterator<Integer> {
+	private class Itr implements Iterator<Long> {
 		int index; //index of the NEXT element to be returned by next(). Zero by default.
 		boolean canRemove;
 		@Override
@@ -232,23 +232,25 @@ public class IntList implements Iterable<Integer> {
 		}
 
 		@Override
-		public Integer next() {
-			if(index >= size) throw new NoSuchElementException();
+		public Long next() {
+			if(index >= size)
+				throw new NoSuchElementException();
 			canRemove = true;
 			return data[index++];
 		}
 
 		@Override
 		public void remove() {
-			if(!canRemove) throw new IllegalStateException();
+			if(!canRemove)
+				throw new IllegalStateException();
 			canRemove = false;
 			removeByIndex(--index);
 		}
 		
 	}
 	
-	public PrimitiveIterator.OfInt primitiveIterator() {
-		return new PrimitiveIterator.OfInt() {
+	public PrimitiveIterator.OfLong primitiveIterator() {
+		return new PrimitiveIterator.OfLong() {
 			int index; //index of the NEXT element to be returned by next(). Zero by default.
 			boolean canRemove;
 			
@@ -258,15 +260,17 @@ public class IntList implements Iterable<Integer> {
 			}
 
 			@Override
-			public int nextInt() {
-				if(index >= size) throw new NoSuchElementException();
+			public long nextLong() {
+				if(index >= size)
+					throw new NoSuchElementException();
 				canRemove = true;
 				return data[index++];
 			}
 
 			@Override
 			public void remove() {
-				if(!canRemove) throw new IllegalStateException();
+				if(!canRemove)
+					throw new IllegalStateException();
 				canRemove = false;
 				removeByIndex(--index);
 			}
@@ -277,7 +281,7 @@ public class IntList implements Iterable<Integer> {
 	public String toString() {
 		StringJoiner j = new StringJoiner(", ", "[", "]");
 		for(int i = 0; i < size; i++)
-			j.add(Integer.toString(data[i]));
+			j.add(Long.toString(data[i]));
 		return j.toString();
 	}
 	

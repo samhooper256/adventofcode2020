@@ -1,6 +1,6 @@
 package testing;
 
-import utils.HashIntSet;
+import utils.colls.HashIntSet;
 
 /**
  * @author Sam Hooper

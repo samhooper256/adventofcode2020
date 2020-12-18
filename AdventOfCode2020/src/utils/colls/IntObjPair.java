@@ -1,4 +1,6 @@
-package utils;
+package utils.colls;
+
+import java.util.Objects;
 
 /**
  * <p>An immutable {@link Pair} containing an {@code int} and an {@link Object}. The {@code int} is the {@link #first()} element and the {@code Object} is the
@@ -7,6 +9,13 @@ package utils;
  *
  */
 public class IntObjPair<T> implements Pair<Integer, T> {
+	
+	/**
+	 * Returns an {@link IntObjPair} containing the given {@code int} and the given {@link Object}.
+	 */
+	public static <T> IntObjPair<T> of(final int intPart, final T objPart) {
+		return new IntObjPair<>(intPart, objPart);
+	}
 	
 	private final int intPart;
 	private final T objPart;
@@ -32,6 +41,28 @@ public class IntObjPair<T> implements Pair<Integer, T> {
 	
 	public T objPart() {
 		return objPart;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(intPart, objPart);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		IntObjPair<?> other = (IntObjPair<?>) obj;
+		return intPart == other.intPart && Objects.equals(objPart, other.objPart);
+	}
+
+	@Override
+	public String toString() {
+		return Pair.toString(this);
 	}
 	
 }

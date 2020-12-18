@@ -3,6 +3,8 @@ package utils;
 import java.util.regex.MatchResult;
 import java.util.stream.*;
 
+import utils.math.Maths;
+
 public final class Parsing {
 	
 	private Parsing() {}

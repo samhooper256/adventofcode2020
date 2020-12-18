@@ -6,6 +6,7 @@ import static utils.CardinalDirection.SOUTH;
 import static utils.CardinalDirection.WEST;
 
 import utils.*;
+import utils.colls.*;
 
 /**
  * @author Sam Hooper
@@ -149,6 +150,6 @@ public class WaypointShip {
 	
 	/** Returns the location of this {@link SimpleShip} as an ordered pair of ({@link #getRow() row}, {@link #getCol() col}).*/
 	public IntPair location() {
-		return Pair.of(getRow(), getCol());
+		return IntPair.of(getRow(), getCol());
 	}
 }

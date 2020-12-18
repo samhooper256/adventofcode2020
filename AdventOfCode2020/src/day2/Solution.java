@@ -3,6 +3,7 @@ package day2;
 import java.util.stream.IntStream;
 
 import utils.*;
+import utils.colls.*;
 
 /**
  * Correct answers are 638 (Part 1) and 699 (Part 2).
@@ -25,7 +26,7 @@ public class Solution {
 	 */
 	private static IntPair dashNums(String dashPart) {
 		int dash = dashPart.indexOf('-');
-		return Pair.of(Integer.parseInt(dashPart.substring(0, dash)), Integer.parseInt(dashPart.substring(dash + 1)));
+		return IntPair.of(Integer.parseInt(dashPart.substring(0, dash)), Integer.parseInt(dashPart.substring(dash + 1)));
 	}
 	
 	

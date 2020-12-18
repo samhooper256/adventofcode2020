@@ -6,6 +6,7 @@ import java.util.regex.*;
 import java.util.stream.*;
 
 import utils.*;
+import utils.colls.*;
 
 /**
  * Correct answers: 20048 (Part 1) and 4810284647569 (Part 2)

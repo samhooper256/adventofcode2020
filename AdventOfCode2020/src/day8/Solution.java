@@ -3,6 +3,7 @@ package day8;
 import java.util.Arrays;
 
 import utils.*;
+import utils.colls.*;
 
 /**
  * Correct answers are 1610 (Part 1) and 1703 (Part 2).
