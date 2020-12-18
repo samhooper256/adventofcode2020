@@ -45,7 +45,7 @@ public class Solution {
 		}
 		
 		public void solvePart2() {
-			terminatingValueAfterBeingFixed();
+			System.out.println(terminatingValueAfterBeingFixed());
 		}
 
 		private long terminatingValueAfterBeingFixed() {
