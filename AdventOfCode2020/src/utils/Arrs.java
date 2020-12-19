@@ -106,6 +106,13 @@ public final class Arrs {
 		return false;
 	}
 	
+	public static boolean contains(final int[] arr, final int item) {
+		for(int i : arr)
+			if(item == i)
+				return true;
+		return false;
+	}
+	
 	/**
 	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
 	 * array stores {@code (arr[i + 1] - arr[i])}.</p>

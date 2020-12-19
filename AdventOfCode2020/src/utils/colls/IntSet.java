@@ -103,6 +103,59 @@ public interface IntSet extends Set<Integer> {
 		};
 	}
 	
+	/**The returned {@link IntSet} is unmodifiable.*/
+	public static IntSet singleton(int item) {
+		return new IntSet() {
+
+			@Override
+			public int size() {
+				return 1;
+			}
+
+			@Override
+			public boolean isEmpty() {
+				return false;
+			}
+
+			@Override
+			public boolean remove(Object o) {
+				throw new UnsupportedOperationException("This IntSet is unmodifiable");
+			}
+
+			@Override
+			public void clear() {
+				throw new UnsupportedOperationException("This IntSet is unmodifiable");
+			}
+
+			@Override
+			public OfInt iterator() {
+				return Iterators.singleton(item);
+			}
+
+			@Override
+			public boolean add(int val) {
+				throw new UnsupportedOperationException("This IntSet is unmodifiable");
+			}
+
+			@Override
+			public boolean contains(int val) {
+				return val == item;
+			}
+
+			@Override
+			public boolean remove(int val) {
+				throw new UnsupportedOperationException("This IntSet is unmodifiable");
+			}
+			
+		};
+	}
+	
+	public static IntSet of(int... items) {
+		HashIntSet hash = new HashIntSet();
+		hash.addAll(items);
+		return unmodifiable(hash);
+	}
+	
 	public static IntSet empty() {
 		return EMPTY;
 	}
@@ -111,6 +164,13 @@ public interface IntSet extends Set<Integer> {
 		return stream.collect(HashIntSet::new, HashIntSet::add, HashIntSet::addAll);
 	}
 	
+	/**The returned {@link IntSet} is modifiable, but its type is unspecified.*/
+	public static IntSet union(IntSet a, IntSet b) {
+		IntSet union = new HashIntSet(Math.max(a.size(), b.size()));
+		union.addAll(a);
+		union.addAll(b);
+		return union;
+	}
 	
 	/**
 	 * {@inheritDoc}

@@ -105,6 +105,11 @@ public class HashIntSet implements IntSet {
 		this.loadFactor = loadFactor;
 	}
 	
+	public HashIntSet(IntSet copyFrom) {
+		this((int) (copyFrom.size() * 1.4));
+		for(PrimitiveIterator.OfInt itr = copyFrom.iterator(); itr.hasNext();)
+			add(itr.next());
+	}
 	@Override
 	public boolean add(final int val) {
 		boolean added = add(val, this.buckets);
