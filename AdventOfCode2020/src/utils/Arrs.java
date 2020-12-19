@@ -121,7 +121,7 @@ public final class Arrs {
 	}
 	
 	/**
-	 * <p>Index {@code i} in the returned array is the sum of the elements from 0 to i (inclusive) in {@code arr}</p>
+	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
 	 */
 	public static int[] summed(final int[] arr) {
 		if(arr.length == 0)
@@ -134,7 +134,7 @@ public final class Arrs {
 	}
 	
 	/**
-	 * <p>Index {@code i} in the returned array is the sum of the elements from 0 to i (inclusive) in {@code arr}</p>
+	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
 	 */
 	public static long[] summed(final long[] arr) {
 		if(arr.length == 0)
@@ -144,6 +144,14 @@ public final class Arrs {
 		for(int i = 1; i < arr.length; i++)
 			summed[i] = summed[i - 1] + arr[i];
 		return summed;
+	}
+	
+	/**
+	 * <p>Given the {@link #summed(long[]) summed} form of the array <i>A</i>, returns the sum of the values in <i>A</i> from {@code low} to {@code high},
+	 * inclusive.</p>
+	 */
+	public static long sumRangeInclusive(final long[] summed, final int low, final int high) {
+		return summed[high] - (low == 0 ? 0L : summed[low - 1]);
 	}
 	
 	/**

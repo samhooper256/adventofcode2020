@@ -5,6 +5,7 @@ import java.util.*;
 import utils.*;
 
 /**
+ * Correct answers are 14360655 (Part 1) and 1962331 (Part 2).
  * @author Sam Hooper
  *
  */
@@ -51,16 +52,12 @@ public class Solution {
 		outer:
 		for(; low < summed.length; low++) {
 			for(high = low; high < summed.length; high++) {
-				if(sumRangeInclusive(summed, low, high) == target) {
+				if(Arrs.sumRangeInclusive(summed, low, high) == target) {
 					break outer;
 				}
 			}
 		}
 		return Arrays.copyOfRange(input, low, high + 1);
-	}
-	
-	private static long sumRangeInclusive(final long[] summed, final int low, final int high) {
-		return summed[high] - (low == 0 ? 0L : summed[low - 1]);
 	}
 	
 }
