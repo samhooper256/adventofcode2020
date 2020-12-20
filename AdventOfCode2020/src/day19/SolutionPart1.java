@@ -13,15 +13,11 @@ public class SolutionPart1 {
 	
 	private static final int NUM_RULES = 134;
 	private static final Map<Integer, String> REGEX_MAP = new HashMap<>();
-	private static final String[] SPLIT, RULES;
+	private static final String[] SPLIT = IO.text("src/day19/input.txt").split("\n\n"), RULES = new String[NUM_RULES];
 	
 	static {
-		SPLIT = IO.text("src/day19/input.txt").split("\n\n");
-		RULES = new String[NUM_RULES];
-		for(String rule : SPLIT[0].lines().toArray(String[]::new)) {
-			String[] ruleSplit = rule.split(": ");
+		for(String[] ruleSplit : SPLIT[0].lines().map(s -> s.split(": ")).toArray(String[][]::new))
 			RULES[Integer.parseInt(ruleSplit[0])] = ruleSplit[1];
-		}
 	}
 	
 	public static void main(String[] args) {
