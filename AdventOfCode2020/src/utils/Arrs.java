@@ -99,18 +99,26 @@ public final class Arrs {
 	 * <p>Returns {@code true} if {@code arr} contains {@code item}, {@code false} otherwise. More precisely, returns {@code true} if there
 	 * is a value {@code i} such that {@code Objects.equals(arr[i], item)}. {@code item} may be {@code null}, {@code arr} must not.</p>
 	 */
-	public static <T> boolean contains(final T[] arr, final T item) {
-		for(T obj : arr)
-			if(Objects.equals(obj, item))
-				return true;
-		return false;
+	public static boolean contains(final Object[] arr, final Object item) {
+		return indexOf(arr, item) >= 0;
 	}
 	
 	public static boolean contains(final int[] arr, final int item) {
-		for(int i : arr)
-			if(item == i)
-				return true;
-		return false;
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static int indexOf(final Object[] arr, final Object item) {
+		for(int i = 0; i < arr.length; i++)
+			if(Objects.equals(arr, item))
+				return i;
+		return -1;
+	}
+	
+	public static int indexOf(final int[] arr, final int item) {
+		for(int i = 0; i < arr.length; i++)
+			if(arr[i] == item)
+				return i;
+		return -1;
 	}
 	
 	/**

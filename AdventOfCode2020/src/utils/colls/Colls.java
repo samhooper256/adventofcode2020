@@ -77,4 +77,18 @@ public final class Colls {
 		return list.get(list.size() - 1);
 	}
 	
+	public static boolean containsAll(Collection<?> collection, Object... items) {
+		for(Object item : items)
+			if(!collection.contains(item))
+				return false;
+		return true;
+	}
+	
+	public static boolean containsAll(Collection<? super Integer> collection, int... items) {
+		for(int item : items)
+			if(!collection.contains(item))
+				return false;
+		return true;
+	}
+	
 }

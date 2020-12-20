@@ -9,9 +9,8 @@ import utils.colls.*;
  * @author Sam Hooper
  *
  */
-public class Solution2 {
+public class SolutionPart2 {
 	
-	private static final IntSet ZERO = IntSet.singleton(0);
 	private static final Node[] NODES;
 	private static final String[] RULES, MESSAGES;
 	static {
