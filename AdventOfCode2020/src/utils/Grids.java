@@ -2,10 +2,14 @@ package utils;
 
 import static utils.Arrs.inBounds;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import utils.function.*;
 
 /**
- * <p>All methods in this class accepting (or returning) 2D arrays assume (or guarantee) that all rows will have the same length.</p>
+ * <p>All methods in this class accepting (or returning) 2D arrays assume (resp. guarantee) that all rows will have the same length.
+ * Additionally, all methods accepting 2D arrays assume they have at least one row (unless stated otherwise).</p>
  * @author Sam Hooper
  *
  */
@@ -15,6 +19,9 @@ public final class Grids {
 	
 	/** This array must not be modified. */
 	public static final int[][] ADJACENT_8 = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+	
+	/** This array must not be modified. */
+	public static final int[][] ADJACENT_4 = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 	
 	/**
 	 * <p>From the starting tile, goes in the direction indicated by {@code deltaRow} and {@code deltaCol} until either:
@@ -48,6 +55,66 @@ public final class Grids {
 				count++;
 		}
 		return count;
+	}
+	
+	public static char[] getCol(final char[][] grid, int colIndex) {
+		char[] col = new char[grid.length];
+		for(int row = 0; row < grid.length; row++)
+			col[row] = grid[row][colIndex];
+		return col;
+	}
+	
+	public static char[][] chars(final String text) {
+		return text.lines().map(String::toCharArray).toArray(char[][]::new);
+	}
+	
+	/** Copies {@code arr} into {@code grid} with its top-left spot at ({@code topLeftRow}, {@code topLeftCol}).*/
+	public static void copyInto(char[][] arr, char[][] grid, final int topLeftRow, final int topLeftCol) {
+		for(int r = 0; r < arr.length; r++) {
+			for(int c = 0; c < arr[r].length; c++) {
+				grid[r + topLeftRow][c + topLeftCol] = arr[r][c];
+			}
+		}
+	}
+	
+	/** Returns a copy. Does not modify the passed {@code char[][]}.*/
+	public static char[][] flippedVertically(char[][] grid) {
+		char[][] flipped = new char[grid.length][];
+		for(int row = 0; row < grid.length; row++) {
+			char[] gridRow = grid[grid.length - row - 1];
+			flipped[row] = Arrays.copyOf(gridRow, gridRow.length);
+		}
+		return flipped;
+	}
+	
+	/** Returns a copy. Does not modify the passed {@code char[][]}.*/
+	public static char[][] flippedHoriztonally(char[][] grid) {
+		final int rowCount = grid.length, colCount = grid[0].length;
+		char[][] flipped = new char[rowCount][colCount];
+		for(int r = 0; r < rowCount; r++)
+			for(int c = 0; c < colCount; c++)
+				flipped[r][c] = grid[r][colCount - c - 1];
+		return flipped;
+	}
+	
+	/** Returns a copy. Does not modify the passed {@code char[][]}.*/
+	public static char[][] rotatedClockwise(char[][] grid) {
+		final int rowCount = grid.length, colCount = grid[0].length;
+		char[][] rotated = new char[rowCount][colCount];
+		for(int r = 0; r < rowCount; r++)
+			for(int c = 0; c < colCount; c++)
+				rotated[r][c] = grid[rowCount - c - 1][r];
+		return rotated;
+	}
+	
+	/** Returns a copy. Does not modify the passed {@code char[][]}.*/
+	public static char[][] rotatedCounterclockwise(char[][] grid) {
+		final int rowCount = grid.length, colCount = grid[0].length;
+		char[][] rotated = new char[rowCount][colCount];
+		for(int r = 0; r < rowCount; r++)
+			for(int c = 0; c < colCount; c++)
+				rotated[r][c] = grid[c][colCount - r - 1];
+		return rotated;
 	}
 	
 }

@@ -84,6 +84,13 @@ public final class Colls {
 		return true;
 	}
 	
+	public static boolean containsAny(Collection<?> collection, Object... items) {
+		for(Object item : items)
+			if(collection.contains(item))
+				return true;
+		return false;
+	}
+	
 	public static boolean containsAll(Collection<? super Integer> collection, int... items) {
 		for(int item : items)
 			if(!collection.contains(item))
@@ -91,4 +98,10 @@ public final class Colls {
 		return true;
 	}
 	
+	public static boolean containsAny(Collection<? super Integer> collection, int... items) {
+		for(int item : items)
+			if(collection.contains(item))
+				return true;
+		return false;
+	}
 }

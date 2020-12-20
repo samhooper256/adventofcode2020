@@ -30,9 +30,22 @@ public final class Bits {
 		return 1L << bitIndex;
 	}
 	
+	public static int onlyBitAsInt(long bitIndex) {
+		return onlyBitAsInt((int) bitIndex);
+	}
+	
+	public static int onlyBitAsInt(int bitIndex) {
+		return 1 << bitIndex;
+	}
+	
 	/** Returns a {@code long} with the same value as {@code num} but with the bit at the given index set to {@code 1}.*/
 	public static long set(long num, int bitIndex) {
 		return num | onlyBit(bitIndex);
+	}
+	
+	/** Returns an {@code int} with the same value as {@code num} but with the bit at the given index set to {@code 1}.*/
+	public static int set(int num, int bitIndex) {
+		return num | onlyBitAsInt(bitIndex);
 	}
 	
 	/** Returns a {@code long} with the same value as {@code num} but with the bit at the given index cleared (set to {@code 0}). */

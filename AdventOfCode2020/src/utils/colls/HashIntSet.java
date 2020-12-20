@@ -198,21 +198,21 @@ public class HashIntSet implements IntSet {
 		Node bucket = buckets[bucketIndex];
 		if(bucket == null)
 			return false;
-		if(!bucket.hasNext()) {
-			if(bucket.value() == val) {
-				clearBucket(bucketIndex);
-				return true;
+		if(bucket.value() == val) {
+			buckets[bucketIndex] = bucket.next();
+			size--;
+			return true;
+		}
+		else {
+			for(Node temp = bucket.next(); bucket.hasNext(); bucket = bucket.next(), temp = bucket.next()) {
+				if(temp.value() == val) {
+					bucket.removeNext();
+					size--;
+					return true;
+				}
 			}
 			return false;
 		}
-		for(Node temp = bucket.next(); bucket.hasNext(); bucket = bucket.next(), temp = bucket.next()) {
-			if(temp.value() == val) {
-				bucket.removeNext();
-				size--;
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	@Override

@@ -182,6 +182,7 @@ public interface IntSet extends Set<Integer> {
 
 	boolean contains(int val);
 	
+	/** Returns {@code true} if the item was present and has been removed, {@code false} otherwise.*/
 	boolean remove(int val);
 	
 	default boolean addAll(final IntSet other) {
@@ -203,6 +204,20 @@ public interface IntSet extends Set<Integer> {
 			if(!contains(itr.nextInt()))
 				return false;
 		return true;
+	}
+	
+	default boolean containsAny(IntSet other) {
+		for(OfInt itr = other.iterator(); itr.hasNext();)
+			if(contains(itr.nextInt()))
+				return true;
+		return false;
+	}
+	
+	default boolean containsAny(int... nums) {
+		for(int item : nums)
+			if(contains(item))
+				return true;
+		return false;
 	}
 	
 	default boolean retainAll(final IntSet other) {

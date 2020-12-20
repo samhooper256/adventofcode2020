@@ -53,4 +53,8 @@ public final class IO {
 	public static String text(final String fileName, final String lineTerminator) {
 		return lines(fileName).collect(Collectors.joining(lineTerminator));
 	}
+	
+	public static Stream<String> splitOnBlanks(final String fileName) {
+		return Regex.TWO_LINE_FEEDS.splitAsStream(text(fileName));
+	}
 }

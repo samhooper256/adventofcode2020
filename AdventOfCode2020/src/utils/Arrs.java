@@ -87,12 +87,40 @@ public final class Arrs {
 		return count(arr, x -> x == val);
 	}
 	
+	public static char[] reversed(char[] arr) {
+		char[] reversed = new char[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
 	/** Returns {@code true} for an empty {@code int[]}. */
 	public static boolean allMatch(int[] arr, IntPredicate predicate) {
 		for(int i : arr)
 			if(!predicate.test(i))
 				return false;
 		return true;
+	}
+	
+	public static void fill2D(final char[][] arr, final char c) {
+		for(int row = 0; row < arr.length; row++)
+			for(int col = 0; col < arr[row].length; col++)
+				arr[row][col] = c;
+	}
+	
+	public static char[][] copy2D(final char[][] arr) {
+		char[][] copy = new char[arr.length][];
+		for(int row = 0; row < arr.length; row++)
+			copy[row] = Arrays.copyOf(arr[row], arr[row].length);
+		return copy;
+	}
+	
+	public static int count2D(final char[][] arr, char item) {
+		int count = 0;
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				if(arr[i][j] == item)
+					count++;
+		return count;
 	}
 	
 	/**
