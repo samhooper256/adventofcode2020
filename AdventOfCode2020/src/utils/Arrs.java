@@ -93,13 +93,6 @@ public final class Arrs {
 			reversed[arr.length - i - 1] = arr[i];
 		return reversed;
 	}
-	/** Returns {@code true} for an empty {@code int[]}. */
-	public static boolean allMatch(int[] arr, IntPredicate predicate) {
-		for(int i : arr)
-			if(!predicate.test(i))
-				return false;
-		return true;
-	}
 	
 	public static void fill2D(final char[][] arr, final char c) {
 		for(int row = 0; row < arr.length; row++)
@@ -131,144 +124,135 @@ public final class Arrs {
 		return indexOf(arr, item) >= 0;
 	}
 	
+	public static boolean contains(final boolean[] arr, final boolean item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static boolean contains(final byte[] arr, final byte item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static boolean contains(final short[] arr, final short item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static boolean contains(final char[] arr, final char item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
 	public static boolean contains(final int[] arr, final int item) {
 		return indexOf(arr, item) >= 0;
 	}
 	
+	public static boolean contains(final long[] arr, final long item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static boolean contains(final float[] arr, final float item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
+	public static boolean contains(final double[] arr, final double item) {
+		return indexOf(arr, item) >= 0;
+	}
+	
 	public static int indexOf(final Object[] arr, final Object item) {
+		return indexOf(arr, o -> Objects.equals(item, o));
+	}
+	
+	public static <T> int indexOf(final T[] arr, final Predicate<? super T> predicate) {
 		for(int i = 0; i < arr.length; i++)
-			if(Objects.equals(arr, item))
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
+	}
+	
+	public static int indexOf(final boolean[] arr, final boolean item) {
+		return indexOf(arr, i -> i == item);
+	}
+	
+	public static int indexOf(final boolean[] arr, final BooleanPredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
+	}
+	
+	public static int indexOf(final byte[] arr, final byte item) {
+		return indexOf(arr, i -> i == item);
+	}
+	
+	public static int indexOf(final byte[] arr, final BytePredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
+	}
+	
+	public static int indexOf(final short[] arr, final short item) {
+		return indexOf(arr, i -> i == item);
+	}
+	
+	public static int indexOf(final short[] arr, final ShortPredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
+	}
+	
+	public static int indexOf(final char[] arr, final char item) {
+		return indexOf(arr, i -> i == item);
+	}
+	
+	public static int indexOf(final char[] arr, final CharPredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
 				return i;
 		return -1;
 	}
 	
 	public static int indexOf(final int[] arr, final int item) {
+		return indexOf(arr, i -> i == item);
+	}
+	
+	public static int indexOf(final int[] arr, final IntPredicate predicate) {
 		for(int i = 0; i < arr.length; i++)
-			if(arr[i] == item)
+			if(predicate.test(arr[i]))
 				return i;
 		return -1;
 	}
 	
-	/**
-	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
-	 * array stores {@code (arr[i + 1] - arr[i])}.</p>
-	 * @throws IllegalArgumentException if {@code (arr.length == 0)}.
-	 */
-	public static int[] diffs(final int[] arr) {
-		if(arr.length == 0)
-			throw new IllegalArgumentException("arr.length == 0");
-		int[] diffs = new int[arr.length - 1];
-		for(int i = 0; i < diffs.length; i++)
-			diffs[i] = arr[i + 1] - arr[i];
-		return diffs;
+	public static int indexOf(final long[] arr, final long item) {
+		return indexOf(arr, i -> i == item);
 	}
 	
-	/**
-	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
-	 */
-	public static int[] summed(final int[] arr) {
-		if(arr.length == 0)
-			return new int[0];
-		int[] summed = new int[arr.length];
-		summed[0] = arr[0];
-		for(int i = 1; i < arr.length; i++)
-			summed[i] = summed[i - 1] + arr[i];
-		return summed;
+	public static int indexOf(final long[] arr, final LongPredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
 	}
 	
-	/**
-	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
-	 */
-	public static long[] summed(final long[] arr) {
-		if(arr.length == 0)
-			return new long[0];
-		long[] summed = new long[arr.length];
-		summed[0] = arr[0];
-		for(int i = 1; i < arr.length; i++)
-			summed[i] = summed[i - 1] + arr[i];
-		return summed;
+	public static int indexOf(final float[] arr, final float item) {
+		return indexOf(arr, i -> i == item);
 	}
 	
-	/**
-	 * <p>Given the {@link #summed(long[]) summed} form of the array <i>A</i>, returns the sum of the values in <i>A</i> from {@code low} to {@code high},
-	 * inclusive.</p>
-	 */
-	public static long sumRangeInclusive(final long[] summed, final int low, final int high) {
-		return summed[high] - (low == 0 ? 0L : summed[low - 1]);
+	public static int indexOf(final float[] arr, final FloatPredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
 	}
 	
-	/**
-	 * <p>Returns an {@link IntPair} of any two numbers in the given array that sum to {@code target}. If no such two numbers exist,
-	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
-	 */
-	public static IntPair sum2ToTarget(final int[] arr, final int target) {
-		return sum2ToTarget(sortedCopy(arr), target, 0, arr.length);
+	public static int indexOf(final double[] arr, final double item) {
+		return indexOf(arr, i -> i == item);
 	}
 	
-	/**
-	 * <p>Returns an {@link IntPair} of any two numbers in the given array that sum to {@code target}. If no such two numbers exist,
-	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
-	 */
-	public static IntPair sum2ToTarget(final int[] arr, final int target, final int startInclusive, final int endExclusive) {
-		IntSet set = new HashIntSet(arr.length);
-		for(int i = startInclusive; i < endExclusive; i++)
-			set.add(arr[i]);
-		for(int i = startInclusive; i < endExclusive; i++)
-			if(set.contains(target - arr[i]))
-				return IntPair.of(arr[i], target - arr[i]);
-		return null;
-	}
-	
-	/**
-	 * <p>Returns an {@link IntStream} containing, in no specific order, three {@code ints} from {@code arr} that sum to {@code target},
-	 * or {@code null} if no such trio exists. The three {@code ints} will be from unique indices.</p>
-	 */
-	public static IntStream sum3ToTarget(final int[] arr, final int target) {
-		return sum3ToTarget(arr, target, 0, arr.length);
-	}
-	
-	/**
-	 * <p>Returns an {@link IntStream} containing, in no specific order, three {@code ints} that appear between indices {@code startInclusive}
-	 * and {@code endExclusive} in {@code arr} that sum to {@code target},
-	 * or {@code null} if no such trio exists. The three {@code ints} will be from unique indices.</p>
-	 */
-	public static IntStream sum3ToTarget(final int[] arr, final int target, int startInclusive, int endExclusive) {
-		for(int i = startInclusive; i < endExclusive; i++) {
-			IntPair pair = sum2ToTarget(arr, target - arr[i], i + 1, endExclusive);
-			if(pair != null)
-				return IntStream.of(arr[i], pair.firstInt(), pair.secondInt());
-		}
-		return null;
-	}
-	
-	public static <T> void forEach(T[] arr, Consumer<T> action) {
-		for(T item : arr)
-			action.accept(item);
-	}
-	
-	public static void forEach(int[] arr, IntConsumer action) {
-		for(int item : arr)
-			action.accept(item);
-	}
-	
-	public static void forEach(long[] arr, LongConsumer action) {
-		for(long item : arr)
-			action.accept(item);
-	}
-	
-	public static void forEach(double[] arr, DoubleConsumer action) {
-		for(double item : arr)
-			action.accept(item);
-	}
-	
-	public static void forEach(boolean[] arr, BooleanConsumer action) {
-		for(boolean item : arr)
-			action.acceptBoolean(item);
-	}
-	
-	public static void forEach(char[] arr, CharConsumer action) {
-		for(char item : arr)
-			action.acceptChar(item);
+	public static int indexOf(final double[] arr, final DoublePredicate predicate) {
+		for(int i = 0; i < arr.length; i++)
+			if(predicate.test(arr[i]))
+				return i;
+		return -1;
 	}
 	
 	/**
@@ -351,6 +335,151 @@ public final class Arrs {
 	
 	public static boolean inBounds(int[][][][] arr, int index1, int index2, int index3, int index4) {
 		return index1 >= 0 && index1 < arr.length && inBounds(arr[index1], index2, index3, index4);
+	}
+
+	public static <T> void forEach(T[] arr, Consumer<T> action) {
+		for(T item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(boolean[] arr, BooleanConsumer action) {
+		for(boolean item : arr)
+			action.acceptBoolean(item);
+	}
+	
+	public static void forEach(byte[] arr, ByteConsumer action) {
+		for(byte item : arr)
+			action.acceptByte(item);
+	}
+	
+	public static void forEach(short[] arr, ShortConsumer action) {
+		for(short item : arr)
+			action.acceptShort(item);
+	}
+	
+	public static void forEach(char[] arr, CharConsumer action) {
+		for(char item : arr)
+			action.acceptChar(item);
+	}
+	
+	public static void forEach(int[] arr, IntConsumer action) {
+		for(int item : arr)
+			action.accept(item);
+	}
+
+	public static void forEach(long[] arr, LongConsumer action) {
+		for(long item : arr)
+			action.accept(item);
+	}
+	
+	public static void forEach(float[] arr, FloatConsumer action) {
+		for(float item : arr)
+			action.acceptFloat(item);
+	}
+
+	public static void forEach(double[] arr, DoubleConsumer action) {
+		for(double item : arr)
+			action.accept(item);
+	}
+
+	/** Returns {@code true} for an empty {@code int[]}. */
+	public static boolean allMatch(int[] arr, IntPredicate predicate) {
+		for(int i : arr)
+			if(!predicate.test(i))
+				return false;
+		return true;
+	}
+
+	/**
+	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
+	 * array stores {@code (arr[i + 1] - arr[i])}.</p>
+	 * @throws IllegalArgumentException if {@code (arr.length == 0)}.
+	 */
+	public static int[] diffs(final int[] arr) {
+		if(arr.length == 0)
+			throw new IllegalArgumentException("arr.length == 0");
+		int[] diffs = new int[arr.length - 1];
+		for(int i = 0; i < diffs.length; i++)
+			diffs[i] = arr[i + 1] - arr[i];
+		return diffs;
+	}
+
+	/**
+	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
+	 */
+	public static int[] summed(final int[] arr) {
+		if(arr.length == 0)
+			return new int[0];
+		int[] summed = new int[arr.length];
+		summed[0] = arr[0];
+		for(int i = 1; i < arr.length; i++)
+			summed[i] = summed[i - 1] + arr[i];
+		return summed;
+	}
+
+	/**
+	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
+	 */
+	public static long[] summed(final long[] arr) {
+		if(arr.length == 0)
+			return new long[0];
+		long[] summed = new long[arr.length];
+		summed[0] = arr[0];
+		for(int i = 1; i < arr.length; i++)
+			summed[i] = summed[i - 1] + arr[i];
+		return summed;
+	}
+
+	/**
+	 * <p>Given the {@link #summed(long[]) summed} form of the array <i>A</i>, returns the sum of the values in <i>A</i> from {@code low} to {@code high},
+	 * inclusive.</p>
+	 */
+	public static long sumRangeInclusive(final long[] summed, final int low, final int high) {
+		return summed[high] - (low == 0 ? 0L : summed[low - 1]);
+	}
+
+	/**
+	 * <p>Returns an {@link IntPair} of any two numbers in the given array that sum to {@code target}. If no such two numbers exist,
+	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
+	 */
+	public static IntPair sum2ToTarget(final int[] arr, final int target) {
+		return sum2ToTarget(sortedCopy(arr), target, 0, arr.length);
+	}
+
+	/**
+	 * <p>Returns an {@link IntPair} of any two numbers in the given array that sum to {@code target}. If no such two numbers exist,
+	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
+	 */
+	public static IntPair sum2ToTarget(final int[] arr, final int target, final int startInclusive, final int endExclusive) {
+		IntSet set = new HashIntSet(arr.length);
+		for(int i = startInclusive; i < endExclusive; i++)
+			set.add(arr[i]);
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(set.contains(target - arr[i]))
+				return IntPair.of(arr[i], target - arr[i]);
+		return null;
+	}
+
+	/**
+	 * <p>Returns an {@link IntStream} containing, in no specific order, three {@code ints} from {@code arr} that sum to {@code target},
+	 * or {@code null} if no such trio exists. The three {@code ints} will be from unique indices.</p>
+	 */
+	public static IntStream sum3ToTarget(final int[] arr, final int target) {
+		return sum3ToTarget(arr, target, 0, arr.length);
+	}
+
+	/**
+	 * <p>Returns an {@link IntStream} containing, in no specific order, three {@code ints} that appear between indices {@code startInclusive}
+	 * and {@code endExclusive} in {@code arr} that sum to {@code target},
+	 * or {@code null} if no such trio exists. The three {@code ints} will be from unique indices.</p>
+	 */
+	public static IntStream sum3ToTarget(final int[] arr, final int target, int startInclusive, int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++) {
+			IntPair pair = sum2ToTarget(arr, target - arr[i], i + 1, endExclusive);
+			if(pair != null)
+				return IntStream.of(arr[i], pair.firstInt(), pair.secondInt());
+		}
+		return null;
 	}
 	
 }

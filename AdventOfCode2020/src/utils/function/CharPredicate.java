@@ -10,11 +10,8 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface CharPredicate extends Predicate<Character> {
 	
-	public boolean testChar(char c);
+	public boolean testChar(char t);
 	
-	/**
-	 * Default implementation is equivalent to: <pre><code>return testChar(t);</code></pre>
-	 */
 	@Override
 	default boolean test(Character t) {
 		return testChar(t);

@@ -2,7 +2,7 @@ package utils.function;
 
 import java.util.function.Predicate;
 /**
- * <p>A {@link Predicate} specialized for the primitive type {@code boolean}. The functional method is {@link #testBoolean(boolean)}<p>
+ * <p>A {@link Predicate} specialized for the primitive type {@code boolean}. The functional method is {@link #testBoolean(boolean)}.<p>
  * @author Sam Hooper
  *
  */
