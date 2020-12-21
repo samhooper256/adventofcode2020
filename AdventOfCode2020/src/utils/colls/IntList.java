@@ -5,6 +5,19 @@ import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
 /**
+ * <p>A list of {@code ints}.</p>
+ * <p>Although this class implements {@link Iterable}, note that the following construct:
+ * <pre>{@code for(int i : someIntList)
+ * 	//...}
+ * </pre>
+ * requires auto-boxing (and then immediate auto-unboxing) of the {@code ints} in the {@code IntList} and so
+ * should be avoided if efficiency is required. Alternatively, one may use the following (unfortunately much more tedious) idiom:
+ * <pre><code>for(PrimitiveIterator.OfInt itr = someIntList.iterator(); itr.hasNext();) {
+ * 	int i = itr.nextInt();
+ *  	//...
+ * }</code></pre>
+ * to avoid sacrificing efficiency.
+ * </p>
  * @author Sam Hooper
  *
  */
@@ -213,41 +226,13 @@ public class IntList implements Iterable<Integer> {
 	}
 	
 	/**
-	 * Note that it will likely be more efficient to iterate over the elements of this {@code IntList} without using
-	 * the iterator, as it will not require boxing to {@link Integer}. The returned iterator makes no guarantees about
+	 * Note that it will likely be more efficient to iterate over the elements of this {@link IntList} without using
+	 * a foreach loop, as it will not require boxing to {@link Integer}. The returned iterator makes no guarantees about
 	 * its behavior if elements are added or removed from this list after it has been created, except by its on
 	 * remove method.
 	 */
 	@Override
-	public java.util.Iterator<Integer> iterator() {
-		return new Itr();
-	}
-	
-	private class Itr implements Iterator<Integer> {
-		int index; //index of the NEXT element to be returned by next(). Zero by default.
-		boolean canRemove;
-		@Override
-		public boolean hasNext() {
-			return index != size;
-		}
-
-		@Override
-		public Integer next() {
-			if(index >= size) throw new NoSuchElementException();
-			canRemove = true;
-			return data[index++];
-		}
-
-		@Override
-		public void remove() {
-			if(!canRemove) throw new IllegalStateException();
-			canRemove = false;
-			removeByIndex(--index);
-		}
-		
-	}
-	
-	public PrimitiveIterator.OfInt primitiveIterator() {
+	public PrimitiveIterator.OfInt iterator() {
 		return new PrimitiveIterator.OfInt() {
 			int index; //index of the NEXT element to be returned by next(). Zero by default.
 			boolean canRemove;

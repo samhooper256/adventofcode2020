@@ -22,7 +22,7 @@ public final class Arrs {
 	private Arrs() {}
 	
 	/**
-	 * Returns {@code false} if the given object is {@code null}.
+	 * Returns true if the given {@code Object} is an array, {@code false} if it is {@code null} or is not an array.
 	 */
 	public static boolean isArray(Object obj) {
 		return obj != null && obj.getClass().isArray();
