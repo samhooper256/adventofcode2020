@@ -91,20 +91,6 @@ public final class Colls {
 		return false;
 	}
 	
-	public static boolean containsAll(Collection<? super Integer> collection, int... items) {
-		for(int item : items)
-			if(!collection.contains(item))
-				return false;
-		return true;
-	}
-	
-	public static boolean containsAny(Collection<? super Integer> collection, int... items) {
-		for(int item : items)
-			if(collection.contains(item))
-				return true;
-		return false;
-	}
-	
 	/** <p>Returns the only element in the given {@link Collection}. If the given {@code Collection} does not have
 	 * exactly one elements (that is, if {@code collection.size() != 1}), an {@link IllegalArgumentException} is thrown.</p>*/
 	public static <T> T getOnlyElement(Collection<T> collection) {

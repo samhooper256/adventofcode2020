@@ -9,6 +9,9 @@ import utils.colls.*;
 import utils.function.*;
 
 /**
+ * <p>Provides several utility methods that are not provided in {@link java.util.Arrays}, such as {@link #contains(Object[], Object) contains},
+ * {@link #indexOf(Object[], Predicate) indexOf}, and {@link #count(Object[], Predicate) count}.
+ * 
  * <p>All methods throw a {@link NullPointerException} if a parameter is {@code null}, unless that parameter is explicitly allowed to be {@code null} by the method
  * documentation.</p>
  * @author Sam Hooper
@@ -750,4 +753,23 @@ public final class Arrs {
 		return null;
 	}
 	
+	/** Returns a {@link StringBuilder} containing the elements of {@code arr} (after being converted to {@code Strings} via {@link Object#toString()})
+	 * separated by delimiters supplied by the given {@link Supplier} and starting and ending with the given {@code opening} and {@code closing} {@code Strings}. */
+	public static StringBuilder concatenatedAsBuilder(Object[] arr, Supplier<? extends CharSequence> separatorFactory, String opening, String closing) {
+		StringBuilder sb = new StringBuilder(opening);
+		if(arr.length == 0)
+			return sb.append(closing);
+		sb.append(arr[0].toString());
+		for(int i = 1; i < arr.length; i++)
+			sb.append(separatorFactory.get()).append(arr[i]);
+		return sb.append(closing);
+	}
+	
+	public static String concatenated(Object[] arr, String separator) {
+		return concatenatedAsBuilder(arr, () -> separator, "", "").toString();
+	}
+	
+	public static String concatenated(Object[] arr) {
+		return concatenated(arr, "");
+	}
 }
