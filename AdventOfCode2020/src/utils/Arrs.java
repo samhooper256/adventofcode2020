@@ -661,6 +661,138 @@ public final class Arrs {
 		return true;
 	}
 	
+	public static int[] asInts(byte[] arr) {
+		int[] ints = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			ints[i] = arr[i];
+		return ints;
+	}
+	
+	public static int[] asInts(short[] arr) {
+		int[] ints = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			ints[i] = arr[i];
+		return ints;
+	}
+	
+	public static int[] asInts(char[] arr) {
+		int[] ints = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			ints[i] = arr[i];
+		return ints;
+	}
+	
+	/**
+	 * Each {@code long} is converted to an {@code int} by a cast, which may lose information.
+	 * @see #asIntsOrThrow(long[])
+	 */
+	public static int[] asInts(long[] arr) {
+		int[] ints = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			ints[i] = (int) arr[i];
+		return ints;
+	}
+	
+	/**
+	 * Each {@code long} is converted to an {@code int} by {@link Math#toIntExact(long)}.
+	 * @throws ArithmeticException if any {@code long} in {@code arr} overflows an {@code int}.
+	 * @see Math#toIntExact(long)
+	 */
+	public static int[] asIntsOrThrow(long[] arr) {
+		int[] ints = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			ints[i] = Math.toIntExact(arr[i]);
+		return ints;
+	}
+	
+	public static long[] asLongs(byte[] arr) {
+		long[] longs = new long[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			longs[i] = arr[i];
+		return longs;
+	}
+	
+	public static long[] asLongs(short[] arr) {
+		long[] longs = new long[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			longs[i] = arr[i];
+		return longs;
+	}
+	
+	public static long[] asLongs(char[] arr) {
+		long[] longs = new long[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			longs[i] = arr[i];
+		return longs;
+	}
+	
+	public static long[] asLongs(int[] arr) {
+		long[] longs = new long[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			longs[i] = arr[i];
+		return longs;
+	}
+	
+	/**
+	 * Each {@code byte} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(byte[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
+	/**
+	 * Each {@code short} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(short[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
+	/**
+	 * Each {@code char} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(char[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
+	/**
+	 * Each {@code int} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(int[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
+	/**
+	 * Each {@code long} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(long[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
+	/**
+	 * Each {@code float} is converted to a {@code double} by widening primitive conversion.
+	 */
+	public static double[] asDoubles(float[] arr) {
+		double[] doubles = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			doubles[i] = arr[i];
+		return doubles;
+	}
+	
 	/**
 	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
 	 * array stores {@code (arr[i + 1] - arr[i])}.</p>

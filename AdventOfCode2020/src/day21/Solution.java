@@ -15,7 +15,7 @@ public class Solution {
 	
 	public static void main(String[] args) {
 		List<Pair<Set<String>, Set<String>>> data = getData();
-		final int allergensNeeded = (int) data.stream().map(Pair::second).flatMap(Set::stream).distinct().count();
+		final int allergensNeeded = Math.toIntExact(data.stream().map(Pair::second).flatMap(Set::stream).distinct().count());
 		Map<String, Set<String>> deductionMap = new HashMap<>();
 		outer:
 		while(ALLERGEN_MAP.size() != allergensNeeded) {
@@ -37,7 +37,6 @@ public class Solution {
 						deductionMap.put(allergen, new HashSet<>(ingredients));
 				}
 			}
-			System.out.println("\n\n");
 		}
 		System.out.println(ALLERGEN_MAP);
 		System.out.printf("%d%n", data.stream().map(Pair::first).flatMap(Set::stream).count());

@@ -9,7 +9,7 @@ import java.util.function.*;
 //Code (essentially) copied from OptionalInt but with 'int' replaced by 'char'.
 public class OptionalChar {
     /**
-     * Common instance for {@code empty()}.
+     * Common instance for {@link #empty()}.
      */
     private static final OptionalChar EMPTY = new OptionalChar();
 
@@ -48,8 +48,6 @@ public class OptionalChar {
 
     /**
      * Construct an instance with the described value.
-     *
-     * @param value the char value to describe
      */
     private OptionalChar(char value) {
         this.isPresent = true;
@@ -58,9 +56,6 @@ public class OptionalChar {
 
     /**
      * Returns an {@code OptionalChar} describing the given value.
-     *
-     * @param value the value to describe
-     * @return an {@code OptionalChar} with the value present
      */
     public static OptionalChar of(char value) {
         return new OptionalChar(value);
@@ -115,8 +110,7 @@ public class OptionalChar {
     }
 
     /**
-     * If a value is present, returns the value, otherwise returns
-     * {@code other}.
+     * If a value is present, returns the value, otherwise returns {@code other}.
      */
     public char orElse(char other) {
         return isPresent ? value : other;
@@ -125,10 +119,7 @@ public class OptionalChar {
     /**
      * If a value is present, returns the value, otherwise returns the result
      * produced by the supplying function.
-     *
-     * @param supplier the supplying function that produces a value to be returned
-     * @return the value, if present, otherwise the result produced by the
-     *         supplying function
+     * 
      * @throws NullPointerException if no value is present and the supplying
      *         function is {@code null}
      */
@@ -137,8 +128,7 @@ public class OptionalChar {
     }
 
     /**
-     * If a value is present, returns the value, otherwise throws
-     * {@code NoSuchElementException}.
+     * If a value is present, returns the value, otherwise throws {@link NoSuchElementException}.
      */
     public char orElseThrow() {
         if (!isPresent) {
@@ -167,10 +157,6 @@ public class OptionalChar {
      * <li>both instances have no value present or;
      * <li>the present values are "equal to" each other via {@code ==}.
      * </ul>
-     *
-     * @param obj an object to be tested for equality
-     * @return {@code true} if the other object is "equal to" this object
-     *         otherwise {@code false}
      */
     @Override
     public boolean equals(Object obj) {
@@ -191,9 +177,6 @@ public class OptionalChar {
     /**
      * Returns the hash code of the value, if present, otherwise {@code 0}
      * (zero) if no value is present.
-     *
-     * @return hash code value of the present value or {@code 0} if no value is
-     *         present
      */
     @Override
     public int hashCode() {
@@ -202,7 +185,7 @@ public class OptionalChar {
 
     /**
      * Returns a non-empty string representation of this {@code OptionalChar}
-     * suitable for debugging.  The exact presentation format is unspecified and
+     * suitable for debugging. The exact presentation format is unspecified and
      * may vary between implementations and versions.
      */
     @Override

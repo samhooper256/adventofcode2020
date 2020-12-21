@@ -2,9 +2,9 @@ package utils.function;
 
 import java.util.function.Function;
 
-/** A {@link Function} that produces a {@code char}-valued result. The functional method is {@link #applyAsChar(Object)}.</p>
+/**
+ * <p>A {@link Function} that produces a {@code char}-valued result. The functional method is {@link #applyAsChar(Object)}.</p>
  * @author Sam Hooper
- *
  */
 public interface ToCharFunction<T> extends Function<T, Character> {
 	
