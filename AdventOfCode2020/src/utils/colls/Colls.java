@@ -104,4 +104,13 @@ public final class Colls {
 				return true;
 		return false;
 	}
+	
+	/** <p>Returns the only element in the given {@link Collection}. If the given {@code Collection} does not have
+	 * exactly one elements (that is, if {@code collection.size() != 1}), an {@link IllegalArgumentException} is thrown.</p>*/
+	public static <T> T getOnlyElement(Collection<T> collection) {
+		if(collection.size() != 1)
+			throw new IllegalArgumentException("The given collection does not have a size() of 1");
+		return collection.iterator().next();
+	}
+	
 }

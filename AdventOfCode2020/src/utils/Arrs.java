@@ -42,6 +42,30 @@ public final class Arrs {
 	}
 	
 	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(byte[])}) and then returns the given array.
+	 */
+	public static byte[] sorted(final byte[] arr) {
+		Arrays.sort(arr);
+		return arr;
+	}
+	
+	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(short[])}) and then returns the given array.
+	 */
+	public static short[] sorted(final short[] arr) {
+		Arrays.sort(arr);
+		return arr;
+	}
+	
+	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(char[])}) and then returns the given array.
+	 */
+	public static char[] sorted(final char[] arr) {
+		Arrays.sort(arr);
+		return arr;
+	}
+	
+	/**
 	 * Sorts the given array in place (using {@link Arrays#sort(int[])}) and then returns the given array.
 	 */
 	public static int[] sorted(final int[] arr) {
@@ -50,10 +74,27 @@ public final class Arrs {
 	}
 	
 	/**
-	 * Returns a sorted copy of the given array. The given array is not modified.
+	 * Sorts the given array in place (using {@link Arrays#sort(long[])}) and then returns the given array.
 	 */
-	public static int[] sortedCopy(final int[] arr) {
-		return sorted(Arrays.copyOf(arr, arr.length));
+	public static long[] sorted(final long[] arr) {
+		Arrays.sort(arr);
+		return arr;
+	}
+	
+	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(float[])}) and then returns the given array.
+	 */
+	public static float[] sorted(final float[] arr) {
+		Arrays.sort(arr);
+		return arr;
+	}
+	
+	/**
+	 * Sorts the given array in place (using {@link Arrays#sort(double[])}) and then returns the given array.
+	 */
+	public static double[] sorted(final double[] arr) {
+		Arrays.sort(arr);
+		return arr;
 	}
 	
 	/**
@@ -158,10 +199,84 @@ public final class Arrs {
 	/**
 	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
 	 */
+	public static int count(boolean[] arr, boolean val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(byte[] arr, byte val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(short[] arr, short val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(char[] arr, char val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
 	public static int count(int[] arr, int val) {
 		return count(arr, x -> x == val);
 	}
 	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(long[] arr, long val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(float[] arr, float val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(double[] arr, double val) {
+		return count(arr, x -> x == val);
+	}
+	
+	/** The given array is not modified. */
+	public static boolean[] reversed(boolean[] arr) {
+		boolean[] reversed = new boolean[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
+	public static byte[] reversed(byte[] arr) {
+		byte[] reversed = new byte[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
+	public static short[] reversed(short[] arr) {
+		short[] reversed = new short[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
 	public static char[] reversed(char[] arr) {
 		char[] reversed = new char[arr.length];
 		for(int i = 0; i < arr.length; i++)
@@ -169,10 +284,40 @@ public final class Arrs {
 		return reversed;
 	}
 	
+	/** The given array is not modified. */
+	public static int[] reversed(int[] arr) {
+		int[] reversed = new int[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
+	public static long[] reversed(long[] arr) {
+		long[] reversed = new long[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
+	public static float[] reversed(float[] arr) {
+		float[] reversed = new float[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
+	/** The given array is not modified. */
+	public static double[] reversed(double[] arr) {
+		double[] reversed = new double[arr.length];
+		for(int i = 0; i < arr.length; i++)
+			reversed[arr.length - i - 1] = arr[i];
+		return reversed;
+	}
+	
 	public static void fill2D(final char[][] arr, final char c) {
-		for(int row = 0; row < arr.length; row++)
-			for(int col = 0; col < arr[row].length; col++)
-				arr[row][col] = c;
+		Basics.for2D(arr, (row, col) -> arr[row][col] = c);
 	}
 	
 	public static char[][] copy2D(final char[][] arr) {
@@ -456,15 +601,63 @@ public final class Arrs {
 		for(double item : arr)
 			action.accept(item);
 	}
-
-	/** Returns {@code true} for an empty {@code int[]}. */
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(boolean[] arr, BooleanPredicate predicate) {
+		for(boolean b : arr)
+			if(!predicate.testBoolean(b))
+				return false;
+		return true;
+	}
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(byte[] arr, BytePredicate predicate) {
+		for(byte b : arr)
+			if(!predicate.testByte(b))
+				return false;
+		return true;
+	}
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(short[] arr, ShortPredicate predicate) {
+		for(short s : arr)
+			if(!predicate.testShort(s))
+				return false;
+		return true;
+	}
+	
+	/** Returns {@code true} for a zero-length array. */
 	public static boolean allMatch(int[] arr, IntPredicate predicate) {
 		for(int i : arr)
 			if(!predicate.test(i))
 				return false;
 		return true;
 	}
-
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(long[] arr, LongPredicate predicate) {
+		for(long l : arr)
+			if(!predicate.test(l))
+				return false;
+		return true;
+	}
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(float[] arr, FloatPredicate predicate) {
+		for(float f : arr)
+			if(!predicate.testFloat(f))
+				return false;
+		return true;
+	}
+	
+	/** Returns {@code true} for a zero-length array. */
+	public static boolean allMatch(double[] arr, DoublePredicate predicate) {
+		for(double d : arr)
+			if(!predicate.test(d))
+				return false;
+		return true;
+	}
+	
 	/**
 	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
 	 * array stores {@code (arr[i + 1] - arr[i])}.</p>
@@ -518,7 +711,7 @@ public final class Arrs {
 	 * {@code null} is returned. This method does not modify the given {@code int[]}.</p>
 	 */
 	public static IntPair sum2ToTarget(final int[] arr, final int target) {
-		return sum2ToTarget(sortedCopy(arr), target, 0, arr.length);
+		return sum2ToTarget(arr, target, 0, arr.length);
 	}
 
 	/**
