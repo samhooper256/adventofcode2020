@@ -41,23 +41,15 @@ public class Solution {
 	
 	private static char[][] applied_1(char[][] map) {
 		char[][] copy = new char[map.length][map[0].length];
-		for(int r = 0; r < map.length; r++) {
-			for(int c = 0; c < map[r].length; c++) {
-				int occ = adjacentOccupied(map, r, c);
-				if(isEmpty(map[r][c]))
-					if(occ == 0)
-						copy[r][c] = OCCUPIED;
-					else
-						copy[r][c] = EMPTY;
-				else if(isOccupied(map[r][c]))
-					if(occ >= 4)
-						copy[r][c] = EMPTY;
-					else
-						copy[r][c] = OCCUPIED;
-				else
-					copy[r][c] = FLOOR;
-			}
-		}
+		Basics.for2D(map, (r, c) -> {
+			int occ = adjacentOccupied(map, r, c);
+			if(isEmpty(map[r][c]))
+				copy[r][c] = occ == 0 ? OCCUPIED : EMPTY;
+			else if(isOccupied(map[r][c]))
+				copy[r][c] = occ >= 4 ? EMPTY : OCCUPIED;
+			else
+				copy[r][c] = FLOOR;
+		});
 		return copy;
 	}
 	
@@ -65,23 +57,15 @@ public class Solution {
 	
 	private static char[][] applied_2(char[][] map) {
 		char[][] copy = new char[map.length][map[0].length];
-		for(int r = 0; r < map.length; r++) {
-			for(int c = 0; c < map[r].length; c++) {
-				int occ = visibleOccupied(map, r, c);
-				if(isEmpty(map[r][c]))
-					if(occ == 0)
-						copy[r][c] = OCCUPIED;
-					else
-						copy[r][c] = EMPTY;
-				else if(isOccupied(map[r][c]))
-					if(occ >= 5)
-						copy[r][c] = EMPTY;
-					else
-						copy[r][c] = OCCUPIED;
-				else
-					copy[r][c] = FLOOR;
-			}
-		}
+		Basics.for2D(map, (r, c) -> {
+			int occ = visibleOccupied(map, r, c);
+			if(isEmpty(map[r][c]))
+				copy[r][c] = occ == 0 ? OCCUPIED : EMPTY;
+			else if(isOccupied(map[r][c]))
+				copy[r][c] = occ >= 5 ? EMPTY : OCCUPIED;
+			else
+				copy[r][c] = FLOOR;
+		});
 		return copy;
 	}
 	

@@ -63,10 +63,8 @@ public class Solution {
 		@Override
 		protected void handleMask(final String maskString) {
 			String bitString = maskString.substring(maskString.lastIndexOf(' ') + 1);
-			long considered = Long.parseLong(bitString.replace('0', '1').replace('X', '0'), 2);
-			long maskBits = Long.parseLong(bitString.replace('X', '0'), 2);
-			mask[0] = considered;
-			mask[1] = maskBits;
+			mask[0] = Long.parseLong(bitString.replace('0', '1').replace('X', '0'), 2);
+			mask[1] = Long.parseLong(bitString.replace('X', '0'), 2);
 		}
 		
 		@Override

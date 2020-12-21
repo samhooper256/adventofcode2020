@@ -53,9 +53,7 @@ public final class Arrs {
 	 * Returns a sorted copy of the given array. The given array is not modified.
 	 */
 	public static int[] sortedCopy(final int[] arr) {
-		int[] sorted = Arrays.copyOf(arr, arr.length);
-		Arrays.sort(sorted);
-		return sorted;
+		return sorted(Arrays.copyOf(arr, arr.length));
 	}
 	
 	/**
@@ -70,11 +68,88 @@ public final class Arrs {
 	}
 	
 	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BooleanPredicate}.</p>
+	 */
+	public static int count(boolean[] arr, BooleanPredicate tester) {
+		int count = 0;
+		for(boolean item : arr)
+			if(tester.testBoolean(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BytePredicate}.</p>
+	 */
+	public static int count(byte[] arr, BytePredicate tester) {
+		int count = 0;
+		for(byte item : arr)
+			if(tester.testByte(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link ShortPredicate}.</p>
+	 */
+	public static int count(short[] arr, ShortPredicate tester) {
+		int count = 0;
+		for(short item : arr)
+			if(tester.testShort(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link CharPredicate}.</p>
+	 */
+	public static int count(char[] arr, CharPredicate tester) {
+		int count = 0;
+		for(char item : arr)
+			if(tester.testChar(item))
+				count++;
+		return count;
+	}
+	
+	/**
 	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link IntPredicate}.</p>
 	 */
 	public static int count(int[] arr, IntPredicate tester) {
 		int count = 0;
 		for(int item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link LongPredicate}.</p>
+	 */
+	public static int count(long[] arr, LongPredicate tester) {
+		int count = 0;
+		for(long item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link FloatPredicate}.</p>
+	 */
+	public static int count(float[] arr, FloatPredicate tester) {
+		int count = 0;
+		for(float item : arr)
+			if(tester.testFloat(item))
+				count++;
+		return count;
+	}
+	
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link DoublePredicate}.</p>
+	 */
+	public static int count(double[] arr, DoublePredicate tester) {
+		int count = 0;
+		for(double item : arr)
 			if(tester.test(item))
 				count++;
 		return count;

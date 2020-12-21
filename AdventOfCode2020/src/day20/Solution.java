@@ -6,6 +6,7 @@ import utils.*;
 import utils.colls.*;
 
 /**
+ * Correct answers are 64802175715999 (Part 1) and 2146 (Part 2).
  * @author Sam Hooper
  *
  */
@@ -18,16 +19,6 @@ public class Solution {
 		String[] tileTexts = IO.splitOnBlanks("src/day20/input.txt").toArray(String[]::new);
 		for(String tileText : tileTexts)
 			parseTile(tileText);
-//		Tile tile1489 = TILE_MAP.get(1489);
-//		System.out.printf("tile1489:%n%s%n", tile1489.fullString());
-//		Tile tile1171 = TILE_MAP.get(1171);
-//		System.out.printf("tile1171:%n%s%n", tile1171.fullString());
-//		tile1171.flipHorizontally();
-//		System.out.printf("tile1171 after a horizontal flip:%n%s%n", tile1171.fullString());
-//		tile1171.flipVertically();
-//		System.out.printf("tile1171 after a vertical flip:%n%s%n", tile1171.fullString());
-//		System.out.println(tile1489.couldBeLeftOf(tile1171));
-//		System.out.println(1567L*3373*3847*3187);
 		solvePart1();
 	}
 
@@ -39,10 +30,13 @@ public class Solution {
 			if(!amalgam.tryAdd(rem))
 				queue.add(rem);
 		}
-		System.out.printf("FULL:%n%s%n", amalgam.fullString());
-		amalgam.used().forEach((condensed, tile) -> {
-			System.out.printf("%s : %s%n", Arrays.toString(Amalgam.expand(condensed)), tile);
-		});
+//		System.out.printf("FULL:%n%s%n", amalgam.fullString());
+//		amalgam.used().forEach((condensed, tile) -> {
+//			System.out.printf("%s : %s%n", Arrays.toString(Amalgam.expand(condensed)), tile);
+//		});
+		Tile[][] tiles = amalgam.tilesArray();
+		System.out.printf("%d%n", ((long) tiles[0][0].id()) * tiles[0][tiles[0].length - 1].id() *
+				tiles[tiles.length - 1][0].id() * tiles[tiles.length - 1][tiles[0].length - 1].id());
 		solvePart2(amalgam.fullChars());
 	}
 	
@@ -57,18 +51,33 @@ public class Solution {
 					noBorders[i][j] = chars[i][j];
 			}
 		}
-		System.out.printf("NO BORDERS:%n");
-		Debug.printLines(noBorders);
+//		System.out.printf("NO BORDERS:%n");
+//		Debug.printLines(noBorders);
 		char[][] condensed = Arrays.stream(noBorders).map(String::new)
 				.filter(s -> !s.isBlank())
 				.map(s -> s.replace(" ", "")).map(String::toCharArray).toArray(char[][]::new);
-		System.out.printf("CONDENSED:%n");
-		Debug.printLines(condensed);
+//		System.out.printf("CONDENSED:%n");
+//		Debug.printLines(condensed);
+		System.out.println(getRoughness(condensed));
+	}
+
+	private static int getRoughness(char[][] condensed) {
+		int seen1 = -1, seen2 = -1;
 		for(char[][] img : allPos(condensed)) {
 			int roughness = roughness(img);
-			Debug.printLines(img);
-			System.out.printf("ROUGHNESS (for above) = %s%n", roughness);
+			if(seen1 == -1)
+				seen1 = roughness;
+			else if(seen2 == -1)
+				seen2 = roughness;
+			else if(seen1 == seen2) {
+				if(seen1 != roughness)
+					return roughness;
+			}
+			else {
+				return roughness == seen1 ? seen2 : seen1;
+			}
 		}
+		throw new IllegalStateException();
 	}
 	
 	private static char[][][] allPos(char[][] img) {

@@ -32,9 +32,8 @@ public class Solution {
 			inner:
 			for(int j = i + 1; j <= i + 3 && j < adaptersSorted.length; j++) {
 				int diff = adaptersSorted[j] - adaptersSorted[i];
-				if(diff <= 3) {
+				if(diff <= 3)
 					total += totals.get(adaptersSorted[j]);
-				}
 				else break inner;
 			}
 			totals.put(adaptersSorted[i], total);

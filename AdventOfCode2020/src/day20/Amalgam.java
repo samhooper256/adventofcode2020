@@ -132,6 +132,17 @@ public class Amalgam {
 		return Collections.unmodifiableMap(used);
 	}
 	
+	public Tile[][] tilesArray() {
+		int minCol = minCol(), minRow = minRow(), maxCol = maxCol(), maxRow = maxRow();
+		int width = maxCol - minCol + 1, height = maxRow - minRow + 1;
+		Tile[][] tiles = new Tile[height][width];
+		for(Map.Entry<Integer, Tile> entry : used.entrySet()) {
+			int[] expanded = expand(entry.getKey());
+			tiles[expanded[0] - minRow][expanded[1] - minCol] = entry.getValue();
+		}
+		return tiles;
+	}
+	
 	public char[][] fullChars() {
 		int minCol = minCol(), minRow = minRow(), maxCol = maxCol(), maxRow = maxRow();
 		int width = maxCol - minCol + 1, height = maxRow - minRow + 1;
