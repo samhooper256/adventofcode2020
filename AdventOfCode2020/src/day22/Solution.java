@@ -126,12 +126,8 @@ public class Solution {
 				return;
 			}
 			statesSeen.add(Pair.of(new ArrayList<>(player1), new ArrayList<>(player2)));
-//			System.out.printf("-- Round %d (Game #%h) --%n", round, this);
-//			System.out.printf("Player 1's deck: %s%n", player1.stream().map(String::valueOf).collect(Collectors.joining(", ")));
-//			System.out.printf("Player 2's deck: %s%n", player2.stream().map(String::valueOf).collect(Collectors.joining(", ")));
 			int card1 = player1.remove();
 			int card2 = player2.remove();
-//			System.out.printf("Player 1 plays: %d%nPlayer 2 plays: %d%n", card1, card2);
 			boolean player1Won;
 			if(card1 <= player1.size() && card2 <= player2.size())
 				player1Won = new RecursiveCombat(firstN(player1, card1), firstN(player2, card2)).playGame().player1Won();
