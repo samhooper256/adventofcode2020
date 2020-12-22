@@ -9,7 +9,7 @@ import utils.*;
 import utils.colls.*;
 
 /**
- * Correct answers: 20048 (Part 1) and 4810284647569 (Part 2)
+ * <p>Correct answers: 20048 (Part 1) and 4810284647569 (Part 2)</p>
  * @author Sam Hooper
  *
  */

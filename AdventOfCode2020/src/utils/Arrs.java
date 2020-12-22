@@ -1,6 +1,7 @@
 package utils;
 
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -44,6 +45,234 @@ public final class Arrs {
 		return isArray(obj) && !obj.getClass().componentType().isPrimitive();
 	}
 	
+	public static char[][] copy2D(final char[][] arr) {
+		char[][] copy = new char[arr.length][];
+		for(int row = 0; row < arr.length; row++)
+			copy[row] = Arrays.copyOf(arr[row], arr[row].length);
+		return copy;
+	}
+
+	public static int count2D(final char[][] arr, char item) {
+		int count = 0;
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				if(arr[i][j] == item)
+					count++;
+		return count;
+	}
+
+	public static void fill2D(final char[][] arr, final char c) {
+		Basics.for2D(arr, (row, col) -> arr[row][col] = c);
+	}
+	
+	/**
+	 * Concatenates the given arrays into a single array provided by the given {@link IntFunction}.
+	 */
+	@SafeVarargs
+	public static <T> T[] concat(IntFunction<T[]> arrayFactory, T[]... arrs) {
+		T[] result = arrayFactory.apply(sumInts(arrs, x -> x.length));
+		int resultIndex = 0;
+		for(T[] arr : arrs)
+			for(int i = 0; i < arr.length; i++)
+				result[resultIndex++] = arr[i];
+		return result;
+	}
+
+	/**
+	 * <p>Returns {@code true} if {@code arr} contains {@code item}, {@code false} otherwise. More precisely, returns {@code true} if there
+	 * is a value {@code i} such that {@code Objects.equals(arr[i], item)}. {@code item} may be {@code null}, {@code arr} must not.</p>
+	 */
+	public static boolean contains(final Object[] arr, final Object item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final boolean[] arr, final boolean item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final byte[] arr, final byte item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final short[] arr, final short item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final char[] arr, final char item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final int[] arr, final int item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final long[] arr, final long item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final float[] arr, final float item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	public static boolean contains(final double[] arr, final double item) {
+		return indexOf(arr, item) >= 0;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link Predicate}.</p>
+	 */
+	public static <T> int count(T[] arr, Predicate<? super T> tester) {
+		int count = 0;
+		for(T item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BooleanPredicate}.</p>
+	 */
+	public static int count(boolean[] arr, BooleanPredicate tester) {
+		int count = 0;
+		for(boolean item : arr)
+			if(tester.testBoolean(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BytePredicate}.</p>
+	 */
+	public static int count(byte[] arr, BytePredicate tester) {
+		int count = 0;
+		for(byte item : arr)
+			if(tester.testByte(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link ShortPredicate}.</p>
+	 */
+	public static int count(short[] arr, ShortPredicate tester) {
+		int count = 0;
+		for(short item : arr)
+			if(tester.testShort(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link CharPredicate}.</p>
+	 */
+	public static int count(char[] arr, CharPredicate tester) {
+		int count = 0;
+		for(char item : arr)
+			if(tester.testChar(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link IntPredicate}.</p>
+	 */
+	public static int count(int[] arr, IntPredicate tester) {
+		int count = 0;
+		for(int item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link LongPredicate}.</p>
+	 */
+	public static int count(long[] arr, LongPredicate tester) {
+		int count = 0;
+		for(long item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link FloatPredicate}.</p>
+	 */
+	public static int count(float[] arr, FloatPredicate tester) {
+		int count = 0;
+		for(float item : arr)
+			if(tester.testFloat(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link DoublePredicate}.</p>
+	 */
+	public static int count(double[] arr, DoublePredicate tester) {
+		int count = 0;
+		for(double item : arr)
+			if(tester.test(item))
+				count++;
+		return count;
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(boolean[] arr, boolean val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(byte[] arr, byte val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(short[] arr, short val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(char[] arr, char val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(int[] arr, int val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(long[] arr, long val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(float[] arr, float val) {
+		return count(arr, x -> x == val);
+	}
+
+	/**
+	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
+	 */
+	public static int count(double[] arr, double val) {
+		return count(arr, x -> x == val);
+	}
+
 	/**
 	 * Sorts the given array in place (using {@link Arrays#sort(byte[])}) and then returns the given array.
 	 */
@@ -98,161 +327,6 @@ public final class Arrs {
 	public static double[] sorted(final double[] arr) {
 		Arrays.sort(arr);
 		return arr;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link Predicate}.</p>
-	 */
-	public static <T> int count(T[] arr, Predicate<? super T> tester) {
-		int count = 0;
-		for(T item : arr)
-			if(tester.test(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BooleanPredicate}.</p>
-	 */
-	public static int count(boolean[] arr, BooleanPredicate tester) {
-		int count = 0;
-		for(boolean item : arr)
-			if(tester.testBoolean(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link BytePredicate}.</p>
-	 */
-	public static int count(byte[] arr, BytePredicate tester) {
-		int count = 0;
-		for(byte item : arr)
-			if(tester.testByte(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link ShortPredicate}.</p>
-	 */
-	public static int count(short[] arr, ShortPredicate tester) {
-		int count = 0;
-		for(short item : arr)
-			if(tester.testShort(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link CharPredicate}.</p>
-	 */
-	public static int count(char[] arr, CharPredicate tester) {
-		int count = 0;
-		for(char item : arr)
-			if(tester.testChar(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link IntPredicate}.</p>
-	 */
-	public static int count(int[] arr, IntPredicate tester) {
-		int count = 0;
-		for(int item : arr)
-			if(tester.test(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link LongPredicate}.</p>
-	 */
-	public static int count(long[] arr, LongPredicate tester) {
-		int count = 0;
-		for(long item : arr)
-			if(tester.test(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link FloatPredicate}.</p>
-	 */
-	public static int count(float[] arr, FloatPredicate tester) {
-		int count = 0;
-		for(float item : arr)
-			if(tester.testFloat(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of elements in {@code arr} that satisfy the given {@link DoublePredicate}.</p>
-	 */
-	public static int count(double[] arr, DoublePredicate tester) {
-		int count = 0;
-		for(double item : arr)
-			if(tester.test(item))
-				count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(boolean[] arr, boolean val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(byte[] arr, byte val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(short[] arr, short val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(char[] arr, char val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(int[] arr, int val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(long[] arr, long val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(float[] arr, float val) {
-		return count(arr, x -> x == val);
-	}
-	
-	/**
-	 * <p>Returns the number of times {@code val} occurs in {@code arr}.</p>
-	 */
-	public static int count(double[] arr, double val) {
-		return count(arr, x -> x == val);
 	}
 	
 	/** The given array is not modified. */
@@ -317,66 +391,6 @@ public final class Arrs {
 		for(int i = 0; i < arr.length; i++)
 			reversed[arr.length - i - 1] = arr[i];
 		return reversed;
-	}
-	
-	public static void fill2D(final char[][] arr, final char c) {
-		Basics.for2D(arr, (row, col) -> arr[row][col] = c);
-	}
-	
-	public static char[][] copy2D(final char[][] arr) {
-		char[][] copy = new char[arr.length][];
-		for(int row = 0; row < arr.length; row++)
-			copy[row] = Arrays.copyOf(arr[row], arr[row].length);
-		return copy;
-	}
-	
-	public static int count2D(final char[][] arr, char item) {
-		int count = 0;
-		for(int i = 0; i < arr.length; i++)
-			for(int j = 0; j < arr[i].length; j++)
-				if(arr[i][j] == item)
-					count++;
-		return count;
-	}
-	
-	/**
-	 * <p>Returns {@code true} if {@code arr} contains {@code item}, {@code false} otherwise. More precisely, returns {@code true} if there
-	 * is a value {@code i} such that {@code Objects.equals(arr[i], item)}. {@code item} may be {@code null}, {@code arr} must not.</p>
-	 */
-	public static boolean contains(final Object[] arr, final Object item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final boolean[] arr, final boolean item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final byte[] arr, final byte item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final short[] arr, final short item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final char[] arr, final char item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final int[] arr, final int item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final long[] arr, final long item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final float[] arr, final float item) {
-		return indexOf(arr, item) >= 0;
-	}
-	
-	public static boolean contains(final double[] arr, final double item) {
-		return indexOf(arr, item) >= 0;
 	}
 	
 	public static int indexOf(final Object[] arr, final Object item) {
@@ -794,6 +808,23 @@ public final class Arrs {
 	}
 	
 	/**
+     * {@code Arrs.hashCode(a, start, end)} is equivalent to but may be more efficient than {@code Arrays.hashCode(Arrays.copyOfRange(a, start, end))}.
+     */
+    public static int hashCode(int a[], int startInclusive, int endExclusive) {
+        if (a == null)
+            return 0;
+        if(startInclusive > endExclusive)
+        	throw new IllegalArgumentException("startInclusive > endExclusive");
+        int result = 1;
+        for(int i = startInclusive; i < endExclusive; i++) {
+			int element = a[i];
+			result = 31 * result + element;
+		}
+
+        return result;
+    }
+	
+	/**
 	 * <p>Returns the <i>diffs</i> of the given array. That is, returns an array with length {@code (arr.length - 1)} where index {@code i} in the returned
 	 * array stores {@code (arr[i + 1] - arr[i])}.</p>
 	 * @throws IllegalArgumentException if {@code (arr.length == 0)}.
@@ -806,7 +837,110 @@ public final class Arrs {
 			diffs[i] = arr[i + 1] - arr[i];
 		return diffs;
 	}
-
+	
+	public static <T> long sumLongs(T[] arr, ToLongFunction<T> longFunction) {
+		long sum = 0;
+		for(T item : arr)
+			sum += longFunction.applyAsLong(item);
+		return sum;
+	}
+	
+	public static <T> int sumInts(T[] arr, ToIntFunction<T> intFunction) {
+		int sum = 0;
+		for(T item : arr)
+			sum += intFunction.applyAsInt(item);
+		return sum;
+	}
+	
+	public static long sum(byte[] arr) {
+		long sum = 0;
+		for(byte i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	/**
+	 * The result may not be accurate if the sum overflows.
+	 */
+	public static int sumAsInt(byte[] arr) {
+		int sum = 0;
+		for(byte i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	public static long sum(short[] arr) {
+		long sum = 0;
+		for(short i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	/**
+	 * The result may not be accurate if the sum overflows.
+	 */
+	public static int sumAsInt(short[] arr) {
+		int sum = 0;
+		for(short i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	public static long sum(int[] arr) {
+		long sum = 0;
+		for(int i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	/**
+	 * The result may not be accurate if the sum overflows.
+	 */
+	public static int sumAsInt(int[] arr) {
+		int sum = 0;
+		for(int i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	public static BigInteger sum(long[] arr) {
+		BigInteger sum = BigInteger.ZERO;
+		for(long i : arr)
+			sum = sum.add(BigInteger.valueOf(i));
+		return sum;
+	}
+	
+	/**
+	 * The result may not be accurate if the sum overflows.
+	 */
+	public static long sumAsLong(long[] arr) {
+		long sum = 0;
+		for(long i : arr)
+			sum += i;
+		return sum;
+	}
+	
+	public static double sum(float[] arr) {
+		double sum = 0;
+		for(float f : arr)
+			sum += f;
+		return sum;
+	}
+	
+	public static float sumAsFloat(float[] arr) {
+		float sum = 0;
+		for(float f : arr)
+			sum += f;
+		return sum;
+	}
+	
+	public static double sum(double[] arr) {
+		double sum = 0;
+		for(double d : arr)
+			sum += d;
+		return sum;
+	}
+	
 	/**
 	 * <p>Index {@code i} in the returned array is the sum of the elements from {@code 0} to {@code i} (inclusive) in the given array.</p>
 	 */

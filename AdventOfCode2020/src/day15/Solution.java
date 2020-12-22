@@ -6,7 +6,7 @@ import utils.colls.IntList;
 
 /**
  * Input: "18,11,9,0,5,1"
- * 
+ * Correct answers are 959 (Part 1) and 116590 (Part 2)
  * The second part runs in about 4-6 seconds on my machine.
  * @author Sam Hooper
  *
@@ -37,7 +37,7 @@ public class Solution {
 		for(int i = 0; i < nums.size() - 1; i++)
 			lastSpoken.put(nums.get(i), i);
 		while(nums.size() < n) {
-			Integer last = nums.peek();
+			int last = nums.peek();
 			final Integer index = lastSpoken.get(last);
 			lastSpoken.put(last, nums.size() - 1);
 			if(index != null)

@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
+import utils.Arrs;
+
 /**
  * <p>A list of {@code ints}.</p>
  * <p>Although this class implements {@link Iterable}, note that the following construct:
@@ -186,10 +188,21 @@ public class IntList implements Iterable<Integer> {
 		return -1;
 	}
 	
-	/** Returns the item at the given index. Throws {@link ArrayIndexOutOfBoundsException} if {@code index} is negative
-	 * or greater than or equal to {@code size}.*/
+	/** Returns the item at the given index. All behavior is undefined if {@code (index < 0 || index >= size())}.
+	 * @see #getOrThrow(int)*/
 	public int get(int index) {
 		return data[index];
+	}
+	
+	/**
+	 * Returns the item at the given index, or throws an exception if {@code (index < 0 || index >= size())}. This method is
+	 * slower than {@link #get(int)}
+	 * @see #get(int) 
+	 */
+	public int getOrThrow(int index) {
+		if(index >= size())
+			throw new ArrayIndexOutOfBoundsException("index >= size()");
+		return data[index]; //will throw exception if index < 0
 	}
 	
 	public int size() {
@@ -223,6 +236,28 @@ public class IntList implements Iterable<Integer> {
 	
 	public IntStream stream() {
 		return Arrays.stream(data, 0, size);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		IntList o = (IntList) obj;
+		if(size() != o.size())
+			return false;
+		for(int i = 0; i < size(); i++)
+			if(get(i) != o.get(i))
+				return false;
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Arrs.hashCode(data, 0, size());
 	}
 	
 	/**
