@@ -1,7 +1,7 @@
 package utils.colls;
 
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.*;
 
 /**
@@ -97,6 +97,19 @@ public final class Colls {
 		if(collection.size() != 1)
 			throw new IllegalArgumentException("The given collection does not have a size() of 1");
 		return collection.iterator().next();
+	}
+	
+	/**
+	 * Returns a copy of the first {@code n} elements from {@code collection} in the {@link Collection} supplied by the given {@link Supplier}.
+	 * */
+	public static <T, C extends Collection<T>> C firstN(Collection<? extends T> collection, int n, Supplier<C> resultCollectionFactory) {
+		C result = resultCollectionFactory.get();
+		for(T i : collection) {
+			result.add(i);
+			if(--n <= 0)
+				break;
+		}
+		return result;
 	}
 	
 }
