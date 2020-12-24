@@ -16,6 +16,7 @@ import static utils.colls.IntPair.*;
  */
 public class Solution {
 	
+	private static final int DAYS = 100;
 	private static final Map<IntPair, Tile> LOCS = new HashMap<>();
 	
 	public static void main(String[] args) {
@@ -38,9 +39,9 @@ public class Solution {
 	private static void solvePart2() {
 		for(IntPair blackLoc : blackLocs())
 			spawnAdj(blackLoc);
-		for(int day = 1; day <= 100; day++)
+		for(int day = 1; day <= DAYS; day++)
 			runDay();
-		System.out.printf("Day %d: %d%n", 100, countBlacks());
+		System.out.printf("Day %d: %d%n", DAYS, countBlacks());
 	}
 	
 	private static void runDay() {
@@ -80,6 +81,8 @@ public class Solution {
 					of(first + 1, second), of(first + 1, second - 1), of(first, second - 1)};
 	}
 	
+	/** Returns {@code true} if the {@link Tile} at the given location is white, {@code false} otherwise. This method is preferred to
+	 * <pre>{@code tileAt(loc).isWhite()}</pre> because it may be able to to avoid actually creating the {@code Tile} object.*/
 	private static boolean isWhite(IntPair loc) {
 		Tile tile = LOCS.get(loc);
 		return tile == null || tile.isWhite();
@@ -93,8 +96,7 @@ public class Solution {
 		IntPair currentLoc = IntPair.ORIGIN;
 		for(String dir : dirs)
 			currentLoc = dirLocOf(currentLoc, dir);
-		Tile tile = tileAt(currentLoc);
-		tile.flip();
+		tileAt(currentLoc).flip();
 	}
 	
 	private static String[] toDirs(String line) {

@@ -8,8 +8,9 @@ import java.util.stream.IntStream;
  */
 public class Solution2 {
 	
+	private static final int PART_2_MOVES = 10_000_000;
 	private static final String INPUT = "685974213";
-	private static final int CUP_COUNT = 1_000_000; //We are assuming that the cups are labeled 1,2,3,...,CUP_COUNT (inclusive).
+	private static final int CUP_COUNT = 1_000_000;
 	private static final Cup[] CUPS = new Cup[CUP_COUNT + 1];
 	private static final class Cup {
 		private final int label;
@@ -86,12 +87,12 @@ public class Solution2 {
 		for(int i = 0; i < nums.length - 1; i++)
 			CUPS[nums[i]].setNext(CUPS[nums[i + 1]]);
 		CUPS[nums[nums.length - 1]].setNext(CUPS[nums[0]]);
-		solvePart2(nums[0]);
+		solve(nums[0], PART_2_MOVES);
 	}
 	
-	private static void solvePart2(final int firstCupLabel) {
+	private static void solve(final int firstCupLabel, int moves) {
 		int currentCupLabel = firstCupLabel;
-		for(int move = 1; move <= 10_000_000; move++)
+		for(int move = 1; move <= moves; move++)
 			currentCupLabel = doMove(currentCupLabel);
 		System.out.printf("%d%n", ((long) CUPS[1].getNext().getLabel()) * CUPS[1].getNext().getNext().getLabel());
 	}
@@ -110,5 +111,4 @@ public class Solution2 {
 	private static Cup cupWithLabel(int label) {
 		return CUPS[label];
 	}
-	
 }
