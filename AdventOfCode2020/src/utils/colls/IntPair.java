@@ -12,6 +12,9 @@ import java.util.stream.*;
  */
 public class IntPair implements SingleTypePair<Integer> {
 	
+	/** An {@link IntPair} of (0, 0).*/
+	public static final IntPair ORIGIN = IntPair.of(0, 0);
+	
 	/**
 	 * Returns an {@link IntPair} containing the two {@code ints}.
 	 */
