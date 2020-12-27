@@ -1,7 +1,5 @@
 package day2;
 
-import java.util.stream.IntStream;
-
 import utils.*;
 import utils.colls.*;
 

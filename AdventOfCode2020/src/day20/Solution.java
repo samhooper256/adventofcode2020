@@ -3,7 +3,6 @@ package day20;
 import java.util.*;
 
 import utils.*;
-import utils.colls.*;
 
 /**
  * Correct answers are 64802175715999 (Part 1) and 2146 (Part 2).
