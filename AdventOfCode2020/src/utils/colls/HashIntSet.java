@@ -298,7 +298,7 @@ public class HashIntSet implements IntSet {
 						}
 						temp = temp.next();
 					}
-					throw new IllegalStateException("Shouldn't happen");
+					assert false : "Shouldn't happen";
 				}
 			}
 			
@@ -336,9 +336,7 @@ public class HashIntSet implements IntSet {
 
 	@Override
 	public boolean remove(Object o) {
-		if(o instanceof Integer)
-			return remove(((Integer) o).intValue());
-		return false;
+		return o instanceof Integer && remove(((Integer) o).intValue());
 	}
 
 	@Override
@@ -347,6 +345,25 @@ public class HashIntSet implements IntSet {
 			buckets[i] = null;
 		size = 0;
 	}
+
+	@Override
+	public int hashCode() {
+		int sum = 0;
+		for(PrimitiveIterator.OfInt itr = iterator(); itr.hasNext(); )
+			sum += itr.nextInt();
+		return sum;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if(!(o instanceof IntSet))
+			return false;
+		IntSet set = (IntSet) o;
+		return size() == set.size() && containsAll(set);
+	}
+	
 	
 	
 }

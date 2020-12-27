@@ -240,7 +240,7 @@ public interface IntSet extends Set<Integer> {
 	
 	/** The {@code ints} are consumed in the same order as in the {@link #iterator()}. */
 	default void forEachInt(IntConsumer action) {
-		for(OfInt itr = iterator(); itr.hasNext();)
+		for(PrimitiveIterator.OfInt itr = iterator(); itr.hasNext();)
 			action.accept(itr.nextInt());
 	}
 	
@@ -325,5 +325,17 @@ public interface IntSet extends Set<Integer> {
 			return a;
 		}
 	}
+	
+	/**
+     * Compares the specified object with this {@link IntSet} for equality.  Returns
+     * {@code true} if the specified object is an {@code IntSet}, the two sets
+     * have the same {@link #size() size}, and every member of the specified {@code IntSet} is
+     * {@link #containsAll(IntSet) contained} in this {@code IntSet}.
+     *
+     * @param o object to be compared for equality with this {@link IntSet}
+     * @return {@code true} if the specified object is equal to this {@link IntSet}
+     */
+	@Override
+	boolean equals(Object o);
 	
 }
