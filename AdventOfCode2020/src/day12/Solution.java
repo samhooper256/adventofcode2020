@@ -3,7 +3,7 @@ package day12;
 import utils.*;
 
 /**
- * Correct answers are 1319 (Part 1) and 62434 (Part 2).
+ * <p>Correct answers are 1319 (Part 1) and 62434 (Part 2).</p>
  * @author Sam Hooper
  *
  */

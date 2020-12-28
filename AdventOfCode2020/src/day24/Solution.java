@@ -41,7 +41,7 @@ public class Solution {
 			spawnAdj(blackLoc);
 		for(int day = 1; day <= DAYS; day++)
 			runDay();
-		System.out.printf("Day %d: %d%n", DAYS, countBlacks());
+		System.out.println(countBlacks());
 	}
 	
 	private static void runDay() {

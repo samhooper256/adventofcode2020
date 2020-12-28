@@ -7,6 +7,7 @@ import utils.*;
 import utils.colls.Colls;
 
 /**
+ * <p>Correct answers are 6778 (Part 1) and 3406 (Part 2).</p>
  * @author Sam Hooper
  *
  */

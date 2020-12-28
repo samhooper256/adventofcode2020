@@ -7,6 +7,7 @@ import utils.IO;
 import utils.colls.*;
 
 /**
+ * <p>Correct answers are 30780 (Part 1) and 36621 (Part 2).</p>
  * @author Sam Hooper
  *
  */

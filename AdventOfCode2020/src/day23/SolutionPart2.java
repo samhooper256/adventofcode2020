@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
  * @author Sam Hooper
  *
  */
-public class Solution2 {
+public class SolutionPart2 {
 	
 	private static final int PART_2_MOVES = 10_000_000;
 	private static final String INPUT = "685974213";
@@ -78,9 +78,8 @@ public class Solution2 {
 		}
 		
 	}
-
 	
-	public static void main(String[] args) {
+	public static void solve() {
 		int[] nums = IntStream.concat(INPUT.chars().map(i -> Character.digit(i, 10)), IntStream.rangeClosed(10, 1_000_000)).toArray();
 		for(int i = 1; i < CUPS.length; i++)
 			CUPS[i] = new Cup(i);

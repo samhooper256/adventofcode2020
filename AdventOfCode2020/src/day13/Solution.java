@@ -1,13 +1,12 @@
 package day13;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import utils.*;
 import utils.math.Maths;
 
 /**
- * Correct answers are 2165 (Part 1) and 534035653563227 (Part 2).
+ * <p>Correct answers are 2165 (Part 1) and 534035653563227 (Part 2).</p>
  * @author Sam Hooper
  *
  */

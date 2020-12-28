@@ -5,9 +5,8 @@ import java.util.*;
 import utils.colls.IntList;
 
 /**
- * Input: "18,11,9,0,5,1"
- * Correct answers are 959 (Part 1) and 116590 (Part 2)
- * The second part runs in about 4-6 seconds on my machine.
+ * <p>Input: <pre>{@code 18,11,9,0,5,1}</pre></p>
+ * <p>Correct answers are 959 (Part 1) and 116590 (Part 2). The second part runs in about 4-6 seconds on my machine.</p>
  * @author Sam Hooper
  *
  */

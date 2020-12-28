@@ -3,6 +3,7 @@ package day5;
 import utils.*;
 
 /**
+ * <p>Correct answers are 989 (Part 1) and 548 (Part 2).</p>
  * @author Sam Hooper
  *
  */

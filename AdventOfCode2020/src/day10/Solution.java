@@ -6,6 +6,7 @@ import java.util.stream.*;
 import utils.*;
 
 /**
+ * <p>Correct answers are 1885 (Part 1) and 2024782584832 (Part 2).</p>
  * @author Sam Hooper
  *
  */

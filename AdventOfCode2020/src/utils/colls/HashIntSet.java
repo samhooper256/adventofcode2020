@@ -1,8 +1,6 @@
 package utils.colls;
 
 import java.util.*;
-import java.util.PrimitiveIterator.OfInt;
-import java.util.stream.IntStream;
 
 /**
  * @author Sam Hooper

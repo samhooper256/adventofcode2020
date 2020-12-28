@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import utils.*;
 import utils.colls.*;
+
 /**
+ * <p>Correct answers are 2072 (Part 1) and fdsfpg,jmvxx,lkv,cbzcgvc,kfgln,pqqks,pqrvc,lclnj (Part 2).</p>
  * @author Sam Hooper
  *
  */
@@ -38,7 +40,6 @@ public class Solution {
 				}
 			}
 		}
-		System.out.println(ALLERGEN_MAP);
 		System.out.printf("%d%n", data.stream().map(Pair::first).flatMap(Set::stream).count());
 		System.out.printf("%s%n", ALLERGEN_MAP.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey))
 				.map(Map.Entry::getValue).collect(Collectors.joining(",")));

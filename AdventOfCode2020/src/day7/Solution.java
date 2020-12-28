@@ -6,6 +6,7 @@ import utils.*;
 import utils.colls.*;
 
 /**
+ * <p>Correct answers are 296 (Part 1) and 9339 (Part 2).</p>
  * @author Sam Hooper
  *
  */

@@ -50,17 +50,11 @@ public class SolutionPart2 {
 		return new Series(indices);
 	}
 	
-	public static void main(String[] args) {
-		solvePart1();
-	}
-
-	private static void solvePart1() {
+	public static void solve() {
 		int count = 0;
 		for(String message : MESSAGES)
-			if(NODES[0].matches(message)) {
-				System.out.println("Matched: \"" + message + "\"");
+			if(NODES[0].matches(message))
 				count++;
-			}
 		System.out.println(count);
 	}
 	

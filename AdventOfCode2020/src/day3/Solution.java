@@ -8,8 +8,8 @@ import java.util.stream.*;
 import utils.*;
 import utils.colls.IntPair;
 
-
 /**
+ * <p>Correct answers are 244 (Part 1) and 9406609920 (Part 2).</p>
  * @author Sam Hooper
  *
  */

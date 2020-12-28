@@ -5,7 +5,7 @@ import java.util.*;
 import utils.*;
 
 /**
- * Correct answers are 64802175715999 (Part 1) and 2146 (Part 2).
+ * <p>Correct answers are 64802175715999 (Part 1) and 2146 (Part 2).</p>
  * @author Sam Hooper
  *
  */

@@ -1,14 +1,17 @@
 package day25;
 
 /**
- * Solution is 15217943.
+ * <p>Input:
+ * <pre>8987316
+ *14681524</pre></p>
+ * <p>Correct answer is 15217943 (Part 1).</p>
  * @author Sam Hooper
  *
  */
 public class Solution {
 	
 	private static final long DIV = 20201227;
-	private static final long CARD_PUBLIC_KEY = 8987316L, DOOR_PUBLIC_KEY = 14681524L;
+	private static final long CARD_PUBLIC_KEY = 8987316, DOOR_PUBLIC_KEY = 14681524;
 	
 	public static void main(String[] args) {
 		solvePart1();

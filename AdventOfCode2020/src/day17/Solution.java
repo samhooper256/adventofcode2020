@@ -6,7 +6,7 @@ import utils.*;
 import utils.function.BooleanPredicate;
 
 /**
- * Correct answers are 265 (Part 1) and 1936 (Part 2).
+ * <p>Correct answers are 265 (Part 1) and 1936 (Part 2).</p>
  * @author Sam Hooper
  *
  */

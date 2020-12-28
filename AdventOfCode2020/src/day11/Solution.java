@@ -7,7 +7,7 @@ import utils.*;
 import utils.function.OptionalChar;
 
 /**
- * Correct answers are 2211 (Part 1) and 1995 (Part 2).
+ * <p>Correct answers are 2211 (Part 1) and 1995 (Part 2).</p>
  * @author Sam Hooper
  *
  */

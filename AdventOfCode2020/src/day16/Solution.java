@@ -9,7 +9,7 @@ import utils.*;
 import utils.colls.*;
 
 /**
- * <p>Correct answers: 20048 (Part 1) and 4810284647569 (Part 2)</p>
+ * <p>Correct answers: 20048 (Part 1) and 4810284647569 (Part 2).</p>
  * @author Sam Hooper
  *
  */
@@ -67,7 +67,7 @@ public class Solution {
 	}
 	
 	private void solvePart1() {
-		System.out.printf("Part 1 = %d%n", sumInvalidsOfAllTickets());
+		System.out.println(sumInvalidsOfAllTickets());
 	}
 	
 	private void solvePart2() {
@@ -105,7 +105,7 @@ public class Solution {
 		}
 		long product = correctIndices.entrySet().stream().filter(e -> e.getKey().startsWith("departure"))
 				.mapToLong(e -> myTicket()[e.getValue()]).reduce(1, (a, b) -> a * b);
-		System.out.println("Part 2 = " + product);
+		System.out.println(product);
 	}
 	
 	private boolean isValidTicket(int[] ticket) {
