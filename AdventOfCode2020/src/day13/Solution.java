@@ -1,9 +1,10 @@
 package day13;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import utils.*;
-import utils.math.Maths;
+import utils.math.*;
 
 /**
  * <p>Correct answers are 2165 (Part 1) and 534035653563227 (Part 2).</p>
@@ -42,29 +43,12 @@ public class Solution {
 	}
 	
 	private static void solvePart2(String input) {
-		System.out.println(firstTime(input));
+		int[] ids = Arrays.stream(input.replace('x', '0').split(",")).mapToInt(Integer::parseInt).toArray();
+		long[][] nr = IntStream.range(0, ids.length).filter(i -> ids[i] != 0)
+				.mapToObj(i -> new long[] {ids[i], Maths.mod(-i, ids[i])}).toArray(long[][]::new);
+		long[] n = Arrays.stream(nr).mapToLong(arr -> arr[0]).toArray();
+		long[] r = Arrays.stream(nr).mapToLong(arr -> arr[1]).toArray();
+		System.out.println(ChineseRemainderTheorem.crt(n, r));
 	}
 	
-	private static long firstTime(String input) {
-		int[] arr = Arrays.stream(input.replace("x", "-1").split(",")).mapToInt(Integer::parseInt).toArray();
-		long start = 1, lastLCM = 1;
-		for(int i = 0; i < arr.length; i++) {
-			if(arr[i] > 0) {
-				long startOld = start;
-				start = lcmShifted(start, -i, lastLCM, arr[i]);
-				lastLCM = startOld == 1 ? start : Maths.lcm(lastLCM, arr[i]);
-			}
-		}
-		return start;
-	}
-	
-	
-	private static long lcmShifted(long start1, long start2, long mult1, long mult2) {
-		while(start1 != start2)
-			if(start1 < start2)
-				start1 += mult1 * Math.max(1, (start2 - start1) / mult1 - 1);
-			else //start1 > start2
-				start2 += mult2 * Math.max(1, (start1 - start2) / mult2 - 1);
-		return start1;
-	}
 }

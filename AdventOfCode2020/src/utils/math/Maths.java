@@ -19,14 +19,14 @@ public final class Maths {
 	private Maths() {}
 	
 	/**
-	 * <p>Does a mathematically correct mod operation. The returned value is always between 0 (inclusive) and {@code modulus} (exclusive), even if
+	 * <p>Does a mathematically correct modulus operation. The returned value is always between 0 (inclusive) and {@code modulus} (exclusive), even if
 	 * {@code num} is negative. For example, {@code mod(-17, 15)} returns {@code 13}.</p>
 	 * @throws IllegalArgumentException if {@code (modulus <= 1)}.
 	 */
-	public static int mod(int num, int modulus) {
+	public static long mod(long num, long modulus) {
 		if(modulus <= 1)
 			throw new IllegalArgumentException("modulus <= 1");
-		if(num > 0)
+		if(num >= 0)
 			return num % modulus;
 		else
 			return num % modulus + modulus;
